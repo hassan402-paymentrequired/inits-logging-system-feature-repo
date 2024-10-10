@@ -16,9 +16,9 @@ class RoleFactory extends Factory
      */
     public function definition(): array
     {
-        $role = ["staff", "admin"];
+        
         return [
-            "name" => $role[mt_rand(0,1)]
+//
         ];
     }
 }
