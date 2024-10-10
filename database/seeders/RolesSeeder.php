@@ -7,6 +7,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as faker;
 
+use function PHPSTORM_META\map;
+
 class RolesSeeder extends Seeder
 {
     /**
@@ -14,21 +16,13 @@ class RolesSeeder extends Seeder
      */
     public function run(): void
     {
-        $role = ["staff", "admin"];
-        $staff_roles = [
-            "name" => $role[mt_rand(0,1)],
+        $roles = [
+            ["name" => "Staff"],
+            ["name" => "Admin"]
         ];
 
-        Role::updateOrCreate($staff_roles);
-    
+         array_map(fn($role) => Role::updateOrCreate(['name' => $role["name"]], ['name' => $role["name"]]), $roles);    
     }
 }
 
-// class M {
-//         function s(){
-
-//         }
-// }
-
-// M
 
