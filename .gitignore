@@ -7,7 +7,10 @@
 /vendor
 .env
 package.json
+package-lock.json
 
+.git
+.gitignore
 .env.backup
 .env.production
 .phpunit.result.cache
