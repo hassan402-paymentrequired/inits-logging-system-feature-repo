@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId("visitor_id")->constrained()->cascadeOnDelete();
             $table->dateTime("check_in_time");
-            $table->dateTime("check_out_time");
-            $table->dateTime("duration_time");
+            $table->dateTime("check_out_time")->nullable()->default(null);
+            $table->dateTime("duration_time")->nullable()->default(null);
             $table->timestamps();
         });
     }
