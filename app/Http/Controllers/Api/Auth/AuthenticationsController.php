@@ -17,13 +17,13 @@ class AuthenticationsController extends Controller
     public function authenticateUser(Request $request): JsonResponse
     {
         $credentials = Validator::make($request->all(), [
-            //|exists:users,email
+            //|exists:users,email TODO: add exist check to email
             "email" => "required|email",
             "password" => "required"
         ]);
 
         if($credentials->fails()){
-            return $this->responseWithCustomError($credentials->errors());
+            return $this->responseWithCustomError($credentials->errors(), 400);
         }
 
 

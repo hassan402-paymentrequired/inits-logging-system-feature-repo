@@ -24,7 +24,7 @@ class AuthenticationsController extends Controller
         return view("auth.login");
     }
 
-    public function authenticate(Request $request)
+    public function authenticateUser(Request $request)
     {
         $credentials = Validator::make($request->all(), [
             "email" => "required|email",
