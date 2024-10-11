@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Auth\AuthenticationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 
 
-//Route::post('');
+Route::group(['prefix' => 'v1'], function () {
+     Route::post('/login', [AuthenticationsController::class, "authenticateUser"]);
+});
+
+

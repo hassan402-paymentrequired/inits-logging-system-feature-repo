@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\Auth\AuthenticationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['prefix' => 'v1'], function () {
+    Route::get('/login', [AuthenticationsController::class, 'login'])->name('login-form');
+    Route::post('/login', [AuthenticationsController::class, 'authenticate'])->name('login');
 });

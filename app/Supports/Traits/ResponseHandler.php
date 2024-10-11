@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Supports\Traits;
 
 use Illuminate\Contracts\Pagination\CursorPaginator;
@@ -9,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+
 trait ResponseHandler
 {
     /**
@@ -99,5 +99,17 @@ trait ResponseHandler
             'copyright' => 'Copyright ' . date('Y') . ' ' . env('app_name', 'Arbitbox'),
             'timestamp' => $this->getTimestampInMilliseconds()
         ];
+    }
+
+    /**
+     * @param string $error
+     * @return array
+     */
+    protected function responseWithCustomError(string $error, $status):JsonResponse
+    {
+        return new JsonResponse([
+            'error' => $error,
+            'meta' => ['timestamp' => $this->getTimestampInMilliseconds()],
+        ], $status);
     }
 }
