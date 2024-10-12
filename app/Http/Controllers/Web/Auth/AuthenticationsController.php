@@ -7,6 +7,7 @@ use App\Services\AuthenticationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
@@ -21,7 +22,7 @@ class AuthenticationsController extends Controller
 
     public function login():View
     {
-        return view("auth.login");
+        return view("welcome"); //TODO: remove welcome
     }
 
     public function authenticateUser(Request $request)
@@ -41,11 +42,14 @@ class AuthenticationsController extends Controller
             return redirect()->back()->with("error", "Invalid email or password");
         }
 
-
         return redirect()->intended(route('dashboard'))->with("success", "Logged in successfully");
     }
 
-
+    public function logout(Request $request)
+    {
+       $this->authenticationService->logout($request);
+        return redirect('/');
+    }
 
 
 }

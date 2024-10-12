@@ -59,7 +59,7 @@ trait ResponseHandler
      *
      * Return no content for delete requests
      */
-    protected function respondWithNoContent(): JsonResponse
+    protected function respondWithNoContent(): JsonResponse|string
     {
         return new JsonResponse([
             'data' => null,

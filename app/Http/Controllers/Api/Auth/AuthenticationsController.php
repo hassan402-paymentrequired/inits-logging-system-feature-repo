@@ -31,4 +31,11 @@ class AuthenticationsController extends Controller
             $this->authenticationService->login($request->email, $request->password)
         );
     }
+
+
+    public function logout(Request $request)
+    {
+            $this->authenticationService->logout($request);
+            return "user logged out";
+    }
 }
