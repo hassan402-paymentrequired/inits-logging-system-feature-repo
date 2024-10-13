@@ -4,6 +4,7 @@ use App\Http\Controllers\Web\Admin\AdminController;
 use App\Http\Controllers\Web\Oauth\OauthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Auth\AuthenticationsController;
+use App\Http\Controllers\Web\Visitors\VisitorsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ Route::group(['prefix' => 'v1'], function () {
 
 Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
     Route::get("/dashboard", [AdminController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard/create', [VisitorsController::class, 'store'])->name('add-visitors');
 });
 
  
