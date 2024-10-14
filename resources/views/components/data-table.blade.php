@@ -54,12 +54,14 @@
                         @foreach($data as $item)
                             <tr class="p-4">
                                 @if($type === 'visitors')
-                                    <td><small class="fw-normal text-muted">{{ $item->visitor->name }}</small></td>
+                                    <td> <a href="{{ route('update-visitor-data', $item->visitor->id) }}" class="text-decoration-none text-muted">
+                                        <small class="fw-normal">{{ $item->visitor->name }}</small>
+                                    </a></td>
                                     <td><small class="fw-normal text-muted">{{ $item->visitor->phone_number }}</small></td>
                                     <td><small class="fw-normal text-muted">{{ $item->visitor->purpose_of_visit }}</small></td>
                                     <td>{{ $item->visitor->user->name }}</td>
                                 @elseif($type === 'staffs')
-                                    <td>{{ $item->name }}</td>
+                                    <td><a href="{{ route('update-visitor-data', $item->id) }}" class="text-decoration-none text-muted">{{ $item->name }}</a></td>
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->phone_number }}</td>
                                 @endif

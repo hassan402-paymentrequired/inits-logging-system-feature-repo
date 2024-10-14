@@ -105,10 +105,12 @@ class VisitorsController extends Controller
      */
     public function update(Request $request, Visitor $visitor)
     {
+
+        // dd($request);
         $visitors_infos = Validator::make($request->all(), [
             'name' => 'required|min:3',
             'phone_number' => 'required',
-            'staff' => 'required|email|exists:users,email'
+            // 'staff' => 'required|email|exists:users,email'
         ]);
 
         if($visitors_infos->fails())
@@ -116,21 +118,21 @@ class VisitorsController extends Controller
             return redirect()->back()->withErrors($visitors_infos);
         }
 
-        $staff = User::where('email', $request->staff)->first();
-        if(!$staff)
-        {
-            return redirect()->back()->with('invalid', 'No staff found with the provided email');
-        }
+        // $staff = User::where('email', $request->staff)->first();
+        // if(!$staff)
+        // {
+        //     return redirect()->back()->with('invalid', 'No staff found with the provided email');
+        // }
 
         $visitor->update([
             'name' => $request->name,
             'phone_number' => $request->phone_number,
             'purpose_of_visit' => $request->purpose_of_visit,
-            'staff_id' => $staff->id,
+            // 'staff_id' => $staff->id,
             'admin_id' => Auth::id()
         ]);
 
-        return redirect('/v1/visitors');
+        return redirect('v1/visitors');
     }
 
     /**
