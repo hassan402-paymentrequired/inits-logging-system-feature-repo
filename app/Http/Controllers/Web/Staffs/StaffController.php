@@ -14,10 +14,17 @@ class StaffController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $staff = User::with('role')->get();
-        return view('dashboard.staff', ['staffs' => $staff]);
+        $staffs = User::with('role')
+        ->when($request->search, function ($query) use ($request) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        })
+        ->paginate($request->get('per_page', 10));
+        
+        // Default to 10 entries per page
+
+    return view('staffs.index', ['staffs' => $staffs]);
     }
 
     /**
