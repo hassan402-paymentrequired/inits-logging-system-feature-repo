@@ -139,4 +139,9 @@ class AdminController extends Controller
         ]); 
     }
 
+    public function createNewStaff(Request $request)
+    {
+        dd($request->all());
+    }
+
 }
