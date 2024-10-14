@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Visitors;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Visitor;
+use App\Services\SendVisitorsNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -33,23 +34,16 @@ class VisitorsController extends Controller
             'purpose_of_visit' => 'required'
         ]);
 
-        // dd($request);
-
-    
         // Check if validation fails
         if($visitors_infos->fails()) {
             return redirect()->back()->with('error', 'invalid infos');
         }
-    
-
-
         // Find the staff by email
         $staff = User::where('email', $request->staff)->first();
         if(!$staff) {
             return redirect()->back()->with('invalid', 'No staff found with the provided email');
         }
 
-    
         // Check if visitor already exists
         $visitor_already_exist = Visitor::where('name', $request->name)->first();
         if($visitor_already_exist) {
@@ -60,6 +54,7 @@ class VisitorsController extends Controller
                 'duration_time' => null,
             ]);
     
+            SendVisitorsNotificationService::send();
             // Redirect to a valid route
             return redirect()->route('visitors')->with('success', 'Visitor checked in successfully');
         }
@@ -89,11 +84,21 @@ class VisitorsController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function edit(Visitor $visitor)
-    // {
-    //     $visitor = $visitor->load('user', 'visitorhistories');
-    //     return view('visitor', ['visitor' => $visitor]);
-    // }
+    public function show(Visitor $visitor)
+    {
+        $visitor = $visitor->load('user');
+        return view('visitors.show', ['visitor' => $visitor]);
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function edit(Visitor $visitor)
+    {
+        $visitor = $visitor->load('user');
+        return view('visitors.edit', ['visitor' => $visitor]);
+    }
 
     /**
      * Update the specified resource in storage.
