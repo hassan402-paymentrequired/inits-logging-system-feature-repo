@@ -23,6 +23,13 @@
                 <form id="form" class="border shadow bg-white px-5 py-5" action="{{ route('login') }}" method="POST" style="height: 450px;">
                     @csrf
                
+
+                    <!-- Error handling -->
+                    @if (session('error'))
+                    <small class="alert alert-danger  d-flex align-items-center justify-content-center">
+                        {{ session('error') }}
+                    </small>
+                @endif
                     <div class="text-center mb-3">
                         <!-- Sign In Title -->
                         <h3 class="mb-3 text-success fw-normal">Sign In</h3>
@@ -62,12 +69,7 @@
                         </a>
                     </div>
 
-                    <!-- Error handling -->
-                    @if (session('error'))
-                    <div class="alert alert-danger mt-2 p-2 d-flex align-items-center justify-content-center">
-                        {{ session('error') }}
-                    </div>
-                @endif
+             
                 </form>
             </div>
         </div>
