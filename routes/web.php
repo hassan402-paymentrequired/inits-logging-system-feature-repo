@@ -36,7 +36,6 @@ Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
     Route::get('/notifications', [AdminController::class, 'notifications'])->name('notifications');
     Route::get('/analytics', [AdminController::class, 'analytics'])->name('analytics');
     Route::get('/geofencing', [AdminController::class, 'geofence'])->name('geofencing');
-});
  
 Route::get('/auth/redirect',[OauthController::class, 'redirectToGoogleAuth'] );
 Route::post("/logout", [AuthenticationsController::class, 'logout']);
