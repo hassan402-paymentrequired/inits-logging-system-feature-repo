@@ -82,7 +82,7 @@ class StaffController extends Controller
             'name' => 'required' ,
             'email' => 'required|email',
             'phone_number' => 'required',
-            'role' => 'required'
+            // 'role' => 'required'
         ]);
 
         if($validate->fails())
@@ -95,11 +95,11 @@ class StaffController extends Controller
         User::created([
             'name' => $request->name,
             'phone_number' => $request->phone_number ,
-            'role_id' => $role->id ,
+            // 'role_id' => $role->id ,
             'email' => $request->email,
         ]);
 
-        return redirect(route('dashboard'));
+        return redirect('v1/staffs');
     }
 
     /**
