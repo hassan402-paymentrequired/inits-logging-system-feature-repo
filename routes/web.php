@@ -4,6 +4,7 @@ use App\Http\Controllers\Web\Admin\AdminController;
 use App\Http\Controllers\Web\Oauth\OauthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Auth\AuthenticationsController;
+use App\Http\Controllers\Web\Staffs\StaffController;
 use App\Http\Controllers\Web\Visitors\VisitorsController;
 
 /*
@@ -21,7 +22,7 @@ use App\Http\Controllers\Web\Visitors\VisitorsController;
 Route::group(['prefix' => 'v1'], function () {
     Route::get('/login', [AuthenticationsController::class, 'login'])->name('login-form');    
     Route::get('/staffs',  [AdminController::class, 'getAllTheStaffForTheMonth'])->name('staffs');
-    Route::post('/login', [AuthenticationsController::class, 'authenticateUser'])->name('login');
+    Route::post('/login', [AuthenticationsController::class, 'authenticateUser'])->name('login')->middleware('guest');
     Route::get('/google/auth/callback', [OauthController::class, 'handleCallback']);
 });
 
@@ -36,6 +37,8 @@ Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
     Route::get('/notifications', [AdminController::class, 'notifications'])->name('notifications');
     Route::get('/analytics', [AdminController::class, 'analytics'])->name('analytics');
     Route::get('/geofencing', [AdminController::class, 'geofence'])->name('geofencing');
- 
+});
+
+Route::post('/admin/staff', [StaffController::class, 'store']);
 Route::get('/auth/redirect',[OauthController::class, 'redirectToGoogleAuth'] );
 Route::post("/logout", [AuthenticationsController::class, 'logout']);
