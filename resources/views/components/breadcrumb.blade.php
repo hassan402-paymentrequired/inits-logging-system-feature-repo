@@ -16,9 +16,13 @@
       </ul>
   </div>
   @component('components.button', [
-        'url' => $buttonUrl,
-        'icon' => $buttonIcon,
-        'text' => $buttonText,
-    ])
-    @endcomponent
+    'id' => $buttonmodalId,
+    'type' => $buttonType,
+    'icon' => $buttonIcon,
+    'text' => $buttonText,
+    'dataModelType'=> $buttonModelType,
+    'dataToggle' => 'modal',
+    'dataTarget' => $buttonmodalId // Ensure this matches your modal ID
+])
+@endcomponent
 </div>
