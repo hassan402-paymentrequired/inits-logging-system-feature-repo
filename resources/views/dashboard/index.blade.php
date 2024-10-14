@@ -32,7 +32,11 @@
   ],
   'buttonUrl' => '#', // Replace with actual URL for the button
   'buttonIcon' => 'bi bi-filetype-pdf', // Change icon as needed
-  'buttonText' => 'Download PDF' // Change text as needed
+  'buttonText' => 'Download PDF',
+  'buttonType' => '#',
+  'buttonmodalId' => '#',
+  'buttonModelType'=> '#'
+   // Change text as needed
 ])
 <div class="d-flex flex-column flex-md-row align-items-center w-100 mb-3">
   <small class="text-muted mb-2 mb-md-0 me-md-3">
