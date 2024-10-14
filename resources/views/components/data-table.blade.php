@@ -58,7 +58,7 @@
                                     <td><small class="fw-normal text-muted">{{ $item->visitor->name }}</small></td>
                                     <td><small class="fw-normal text-muted">{{ $item->visitor->phone_number }}</small></td>
                                     <td><small class="fw-normal text-muted">{{ $item->visitor->purpose_of_visit }}</small></td>
-                                    <td>{{ $item->visitor->staff_id }}</td>
+                                    <td>{{ $item->visitor->user->name }}</td>
                                 @elseif($type === 'staffs')
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->position }}</td>

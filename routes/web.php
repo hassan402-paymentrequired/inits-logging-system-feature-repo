@@ -19,10 +19,7 @@ use App\Http\Controllers\Web\Visitors\VisitorsController;
 
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::get('/login', [AuthenticationsController::class, 'login'])->name('login-form');
-
-    Route::get('/visitors', [AdminController::class, 'getAllTheVisitorForTheMonth'])->name('visitors');
-    
+    Route::get('/login', [AuthenticationsController::class, 'login'])->name('login-form');    
     Route::get('/staffs',  [AdminController::class, 'getAllTheStaffForTheMonth'])->name('staffs');
     
     Route::post('/login', [AuthenticationsController::class, 'authenticateUser'])->name('login');
@@ -35,6 +32,7 @@ Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
     Route::get('/admin/visitors/update/{visitor}', [VisitorsController::class, 'edit'])->name('update-visitor-form'); 
     Route::patch('/admin/visitors/update/{visitor}', [VisitorsController::class, 'update'])->name('update-visitor-data');
     Route::patch('/admin/visitors/check-out/{visitor}', [VisitorsController::class, 'checkOut'])->name('check-visitor-out');
+    Route::get('/visitors', [AdminController::class, 'getAllTheVisitorForTheMonth'])->name('visitors');
 
     Route::get('/notifications', [AdminController::class, 'notifications'])->name('notifications');
     
