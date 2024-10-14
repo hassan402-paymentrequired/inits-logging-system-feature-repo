@@ -12,7 +12,7 @@ class Visitor extends Model
     use HasFactory;
 
     public function user():BelongsTo{
-        return $this->belongsTo(User::class,);
+        return $this->belongsTo(User::class, 'staff_id');
     }
 
     public function visitorhistories():HasMany{
