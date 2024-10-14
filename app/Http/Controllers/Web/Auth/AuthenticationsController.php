@@ -22,7 +22,7 @@ class AuthenticationsController extends Controller
 
     public function login():View
     {
-        return view("welcome"); //TODO: remove welcome
+        return view("auth.login"); //TODO: remove welcome
     }
 
     public function authenticateUser(Request $request)
@@ -41,6 +41,7 @@ class AuthenticationsController extends Controller
         if($response['status'] == 400) {
             return redirect()->back()->with("error", "Invalid email or password");
         }
+    
 
         return redirect()->intended(route('dashboard'))->with("success", "Logged in successfully");
     }
@@ -48,7 +49,7 @@ class AuthenticationsController extends Controller
     public function logout(Request $request)
     {
        $this->authenticationService->logout($request);
-        return redirect('/');
+        return redirect('v1/login');
     }
 
 

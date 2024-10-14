@@ -13,49 +13,134 @@ use Illuminate\Contracts\View\View;
 class AdminController extends Controller
 {
 
-    /**
-     * Summary of index
-     * @return void
-     */
-    public function index(): View
+public function index(Request $request): View
+{
+    // Get the selected date from the request or default to today
+    $selectedDate = $request->input('selected_date', date('Y-m-d')); // Defaults to today's date
+
+    // Get the month and year from the selected date
+    $month = date('m', strtotime($selectedDate)); 
+    $year = date('Y', strtotime($selectedDate));   
+
+    // Get checked-in staff for the month
+    $checked_in_staff_for_the_month = StaffCheckIns::whereYear('check_in_time', $year)
+        ->whereMonth('check_in_time', $month)
+        ->with('user')
+        ->get();
+
+    // Get checked-in visitors for the month
+    $checked_in_visitors_for_the_month = VisitorHistories::whereYear('check_in_time', $year)
+        ->whereMonth('check_in_time', $month)
+        ->with(['visitor.user'])
+        ->get();
+
+    // Get checked-in visitors for the selected date
+    $checked_in_visitors_today = VisitorHistories::whereDate('check_in_time', $selectedDate)
+        ->with(['visitor.user'])
+        ->get();
+
+    // Get checked-in staff for the selected date
+    $checked_in_staff_today = StaffCheckIns::whereDate('check_in_time', $selectedDate)
+        ->with('user')
+        ->get();
+
+    // Get checked-in visitors for yesterday (if needed)
+    $checked_in_visitors_yesterday = VisitorHistories::whereDate('check_in_time', now()->subDay())
+        ->with(['visitor.user'])
+        ->get();
+
+    // Get checked-in staff for yesterday (if needed)
+    $checked_in_staff_yesterday = StaffCheckIns::whereDate('check_in_time', now()->subDay())
+        ->with('user')
+        ->get();
+
+    // Count the number of staff checked in for the selected date
+    $number_of_checked_in_staff_today = $checked_in_staff_today->count();
+
+    // Gender count for staff for the month
+    $staff_gender_count = [
+        'male' => $checked_in_staff_for_the_month->where('user.gender', 'male')->count(),
+        'female' => $checked_in_staff_for_the_month->where('user.gender', 'female')->count(),
+    ];
+
+    // dd($staff_gender_count);
+// Filter only male visitors
+$male_visitors = $checked_in_visitors_for_the_month->filter(function($checkIn) {
+    return $checkIn['visitor']['gender'] === 'male';
+});
+// Filter only female visitors
+$female_visitors = $checked_in_visitors_for_the_month->filter(function($checkIn) {
+    return $checkIn['visitor']['gender'] === 'female';
+});
+
+
+
+    // Gender count for visitors for the month
+    $visitor_gender_count = [
+    'male'=>  $male_visitors->count(),
+     'female'=> $female_visitors->count()
+    ];
+// dd($visitor_gender_count);
+  
+
+    return view('dashboard.index', [
+        'checked_in_visitors_today' => $checked_in_visitors_today,
+        'checked_in_staff_today' => $checked_in_staff_today,
+        'staff_for_the_month' => $checked_in_staff_for_the_month,
+        'visitor_for_the_month' => $checked_in_visitors_for_the_month,
+        'number_of_checked_in_staff_today' => $number_of_checked_in_staff_today, 
+        'checked_in_staff_yesterday' => $checked_in_staff_yesterday,
+        'checked_in_visitors_yesterday' => $checked_in_visitors_yesterday,
+        'selectedDate' => $selectedDate,
+        'staff_gender_count' => $staff_gender_count,
+        'visitor_gender_count' => $visitor_gender_count, 
+    ]);
+}
+
+
+
+
+
+
+
+
+    public function getAllTheVisitorForTheMonth(Request $request)
     {
-        $month = date('m'); 
-        $year = date('Y');   
-        $currently_checked_in_staff_for_the_month = StaffCheckIns::whereYear('check_in_time', $year)
-            ->whereMonth('check_in_time', $month)
-            ->with('user')
-            ->get();
+         // Get the number of entries per page from the request, defaulting to 10
+    $perPage = $request->input('per_page', 10);
 
-            $currently_checked_in_visitor_for_the_month = VisitorHistories::whereYear('check_in_time', $year)
-            ->whereMonth('check_in_time', $month)
-            ->with(['visitor.user'])
-            ->get();
+    // Get the search query from the request
+    $search = $request->input('search', '');
 
-        $currently_checked_in_visitors = VisitorHistories::whereDate('check_in_time', date('Y-m-d'))->with(['visitor.user'])->get();
-        $currently_checked_in_staff = StaffCheckIns::whereDate('check_in_time', date('Y-m-d'))->with('user')->get();
+    // Build the query
+    $visitors_for_the_month = VisitorHistories::whereMonth('check_in_time', date('m'))
+        ->whereYear('check_in_time', date('Y'))
+        ->with(['visitor.user',])
+        ->when($search, function ($query, $search) {
+            return $query->whereHas('visitor', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('phone_number', 'like', "%{$search}%");
+            });
+        })
+        ->paginate($perPage);
+        $items = $visitors_for_the_month->items();
+     
 
-        return view('dash', [
-            'currently_checked_in_visitors' => $currently_checked_in_visitors,
-            'currently_checked_in_staff' => $currently_checked_in_staff,
-            'staff_for_the_month' => $currently_checked_in_staff_for_the_month,
-            'visitor_for_the_month' => $currently_checked_in_visitor_for_the_month
-        ]); //TODO: change the view to work with yours
-    }
-
-    public function getAllTheVisitorForTheMonth()
-    {
-        $visitors_for_the_month = VisitorHistories::whereDate('check_in_time', date('Y-m-d'))->with(['visitor.user'])->get();
-        return view('admin.visitor', [
-            'visitors_for_the_month' => $visitors_for_the_month
+        return view('visitors.index', [
+            'visitors_for_the_month' => $visitors_for_the_month,
+            'search' => $search, // Pass the search query to the view
+            'perPage' => $perPage, // Pass the per page value to the view
         ]); //TODO: add the admin visitors page to display the data
     }
 
 
-    public function getAllTheStaffForTheMonth()
-    {
-        $staff_for_the_month = StaffCheckIns::whereDate('check_in_time', date('Y-m-d'))->with('user')->get();
-        return view('admin.staff', [
-            'staff_for_the_month' =>  $staff_for_the_month
-        ]); //TODO: add the admin staff page to display the data
-    }
+    // public function getAllTheStaffForTheMonth()
+    // {
+    //     $staffs_for_the_month = StaffCheckIns::whereDate('check_in_time', date('Y-m-d'))->with('user')->get();
+        
+    //     return view('staffs.index', [
+    //         'staff_for_the_month' =>  $staffs_for_the_month
+    //     ]); //TODO: add the admin staff page to display the data
+    // }
 }
+
