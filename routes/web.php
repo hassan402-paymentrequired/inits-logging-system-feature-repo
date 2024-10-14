@@ -29,6 +29,8 @@ Route::group(['prefix' => 'v1'], function () {
 Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
     Route::get("/dashboard", [AdminController::class, 'index'])->name('dashboard');
     Route::post('/dashboard/create', [VisitorsController::class, 'store'])->name('add-visitors');
+    Route::patch('/admin/visitors/update/{visitor}', [VisitorsController::class, 'update'])->name('update-visitor-data');
+    Route::get('/admin/visitors/update/{visitor}', [VisitorsController::class, 'index'])->name('update-v'); //TODO:remove this when done
 });
 
  

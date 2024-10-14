@@ -13,9 +13,10 @@ class VisitorsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Visitor $visitor)
     {
-        //
+        $visitor = $visitor->load('user');
+        return view('visitor', ['visitor' => $visitor]);
     }
 
     /**
@@ -76,9 +77,9 @@ class VisitorsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $visitor)
     {
-        //
+        dd($request->all(), $visitor);
     }
 
     /**
