@@ -259,3 +259,7 @@ body {
 .report-link:hover {
     transform: translateX(5px); /* Slightly move the link to the right */
 }
+
+select {
+    cursor: pointer;
+}

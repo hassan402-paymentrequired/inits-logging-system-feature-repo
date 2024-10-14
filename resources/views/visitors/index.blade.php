@@ -22,7 +22,7 @@
 
 
 {{--  .blade  --}}
-<x-add-visitor-modal visitorsModel='addVisitorModalLabel' modalType="visitor" />
+<x-modal visitorsModel='addVisitorModalLabel' modalType="visitor" />
 
 
 

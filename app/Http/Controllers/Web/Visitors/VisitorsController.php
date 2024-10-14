@@ -62,8 +62,10 @@ class VisitorsController extends Controller
             'check_out_time' => null,
             'duration_time' => null,
         ]);
-
+        return redirect()->route('visitor.index')->with('success', 'Visitor created and checked in successfully!');
         return redirect('/v1/admin/visitors');
+
+      
     }
 
     /**
