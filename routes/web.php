@@ -16,12 +16,28 @@ use App\Http\Controllers\Web\Visitors\VisitorsController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get("/", function(){
-    return view('welcome');
-});
+
 
 Route::group(['prefix' => 'v1'], function () {
     Route::get('/login', [AuthenticationsController::class, 'login'])->name('login-form');
+    // Route::get('/visitors', function () {
+    //     return view('visitors.index');
+    // })->name('visitors');
+    Route::get('/visitors', [AdminController::class, 'getAllTheVisitorForTheMonth'])->name('visitors');
+    
+    Route::get('/staffs',  [AdminController::class, 'getAllTheStaffForTheMonth'])->name('staffs');
+    
+    Route::get('/notifications', function () {
+        return view('notifications.index');
+    })->name('notifications');
+    
+    Route::get('/analytics', function () {
+        return view('analytics.index');
+    })->name('analytics');
+    
+    Route::get('/geofencing', function () {
+        return view('geofencing.index');
+    })->name('geofencing');
     Route::post('/login', [AuthenticationsController::class, 'authenticateUser'])->name('login');
     Route::get('/google/auth/callback', [OauthController::class, 'handleCallback']);
 });

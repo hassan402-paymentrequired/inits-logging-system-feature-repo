@@ -1,0 +1,292 @@
+@extends('layouts.app')
+
+@section('title', 'Visitors')
+
+@section('content')
+<main class="container mt-2">
+  <div class="d-flex justify-content-between align-items-center">
+      <div>
+          <h1 class="h2">Visitors</h1>
+          <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Home</li>
+          </ul>
+      </div>
+      <a href="#" class="btn btn-primary">
+        <i class="bi bi-person-plus"></i>
+          <span class="text">Add New Visitor</span>
+      </a>
+  </div>
+  <div class="">
+    <div class="d-flex justify-content-between">
+        <div>
+            <select id="monthFilter" class="form-select form-select-sm">
+                <option value="">Filter by Month</option>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+            </select>
+        </div>
+        <div class="input-group mb-2 w-25">
+          <span class="input-group-text">
+            <i class="bi bi-search text-primary"></i>
+        </span>
+          <input type="text" id="nameSearch" class="form-control form-control-sm" placeholder="Search visitors name...">
+        
+      </div>
+    </div>
+</div>
+  <div class="container">
+  <div class="row mb-4">
+    <div class="card mb-7 p-0 shadow">
+      <div class="card-header border border-0 bg-white p-4">
+        <h5 class="mb-0">Data</h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-nowrap">
+            <thead class="table-light border border-none">
+                <tr>
+                    <th scope="col" class="small p-3 text-secondary fw-normal">Name & Email</th>
+                    <th scope="col" class="small p-3 text-secondary fw-normal">Host</th>
+                    <th scope="col" class="small p-3 text-secondary fw-normal">Purpose of Visit</th>
+                    <th scope="col" class="small p-3 text-secondary fw-normal">Check-in time</th>
+                    <th scope="col" class="small p-3 text-secondary fw-normal">Check-out time</th>
+                    <th class="small"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <a href="#" class="text-primary small">John Doe</a><br />
+                        <small class="text-muted">john.doe@example.com</small>
+                    </td>
+                    <td>
+                        <a href="#" class="text-primary small">Jane Smith</a>
+                    </td>
+                    <td class="small">Business Meeting</td>
+                    <td class="small">5:00 AM</td>
+                    <td class="small">5:00 PM</td>
+                    <td class="text-end">
+                      <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#" class="text-primary small">Emily Clark</a><br />
+                        <small class="text-muted">emily.clark@example.com</small>
+                    </td>
+                    <td>
+                        <a href="#" class="text-primary small">Michael Johnson</a>
+                    </td>
+                    <td class="small">Interview</td>
+                    <td class="small">10:00 AM</td>
+                    <td class="small">6:00 PM</td>
+                  
+                    <td class="text-end">
+                      <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+                  </td>
+                </tr>
+                   <tr>
+                    <td>
+                        <a href="#" class="text-primary small">John Doe</a><br />
+                        <small class="text-muted">john.doe@example.com</small>
+                    </td>
+                    <td>
+                        <a href="#" class="text-primary small">Jane Smith</a>
+                    </td>
+                    <td class="small">Business Meeting</td>
+                    <td class="small">10:00 AM</td>
+                    <td class="small">10:00 AM</td>
+                    <td class="text-end">
+                        <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="#" class="text-primary small">Emily Clark</a><br />
+                        <small class="text-muted">emily.clark@example.com</small>
+                    </td>
+                    <td>
+                        <a href="#" class="text-primary small">Michael Johnson</a>
+                    </td>
+                    <td class="small">Interview</td>
+                    <td class="small">5:00 AM</td>
+                    <td class="small">10:00 AM</td>
+                    <td class="text-end">
+                      <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+                  </td>
+                </tr>
+              </tr>
+              <tr>
+               <td>
+                   <a href="#" class="text-primary small">John Doe</a><br />
+                   <small class="text-muted">john.doe@example.com</small>
+               </td>
+               <td>
+                   <a href="#" class="text-primary small">Jane Smith</a>
+               </td>
+               <td class="small">Business Meeting</td>
+               <td class="small">10:00 AM</td>
+               <td class="small">10:00 AM</td>
+               <td class="text-end">
+                   <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   <a href="#" class="text-primary small">Emily Clark</a><br />
+                   <small class="text-muted">emily.clark@example.com</small>
+               </td>
+               <td>
+                   <a href="#" class="text-primary small">Michael Johnson</a>
+               </td>
+               <td class="small">Interview</td>
+               <td class="small">5:00 AM</td>
+               <td class="small">10:00 AM</td>
+               <td class="text-end">
+                 <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+             </td>
+           </tr>
+          </tr>
+          <tr>
+           <td>
+               <a href="#" class="text-primary small">John Doe</a><br />
+               <small class="text-muted">john.doe@example.com</small>
+           </td>
+           <td>
+               <a href="#" class="text-primary small">Jane Smith</a>
+           </td>
+           <td class="small">Business Meeting</td>
+           <td class="small">10:00 AM</td>
+           <td class="small">10:00 AM</td>
+           <td class="text-end">
+               <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+           </td>
+       </tr>
+       <tr>
+           <td>
+               <a href="#" class="text-primary small">Emily Clark</a><br />
+               <small class="text-muted">emily.clark@example.com</small>
+           </td>
+           <td>
+               <a href="#" class="text-primary small">Michael Johnson</a>
+           </td>
+           <td class="small">Interview</td>
+           <td class="small">5:00 AM</td>
+           <td class="small">10:00 AM</td>
+           <td class="text-end">
+             <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+         </td>
+       </tr>      </tr>
+       <tr>
+        <td>
+            <a href="#" class="text-primary small">John Doe</a><br />
+            <small class="text-muted">john.doe@example.com</small>
+        </td>
+        <td>
+            <a href="#" class="text-primary small">Jane Smith</a>
+        </td>
+        <td class="small">Business Meeting</td>
+        <td class="small">10:00 AM</td>
+        <td class="small">10:00 AM</td>
+        <td class="text-end">
+            <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="#" class="text-primary small">Emily Clark</a><br />
+            <small class="text-muted">emily.clark@example.com</small>
+        </td>
+        <td>
+            <a href="#" class="text-primary small">Michael Johnson</a>
+        </td>
+        <td class="small">Interview</td>
+        <td class="small">5:00 AM</td>
+        <td class="small">10:00 AM</td>
+        <td class="text-end">
+          <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+      </td>
+    </tr>      </tr>
+    <tr>
+     <td>
+         <a href="#" class="text-primary small">John Doe</a><br />
+         <small class="text-muted">john.doe@example.com</small>
+     </td>
+     <td>
+         <a href="#" class="text-primary small">Jane Smith</a>
+     </td>
+     <td class="small">Business Meeting</td>
+     <td class="small">10:00 AM</td>
+     <td class="small">10:00 AM</td>
+     <td class="text-end">
+         <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+     </td>
+ </tr>
+ <tr>
+     <td>
+         <a href="#" class="text-primary small">Emily Clark</a><br />
+         <small class="text-muted">emily.clark@example.com</small>
+     </td>
+     <td>
+         <a href="#" class="text-primary small">Michael Johnson</a>
+     </td>
+     <td class="small">Interview</td>
+     <td class="small">5:00 AM</td>
+     <td class="small">10:00 AM</td>
+     <td class="text-end">
+       <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+   </td>
+ </tr>      </tr>
+ <tr>
+  <td>
+      <a href="#" class="text-primary small">John Doe</a><br />
+      <small class="text-muted">john.doe@example.com</small>
+  </td>
+  <td>
+      <a href="#" class="text-primary small">Jane Smith</a>
+  </td>
+  <td class="small">Business Meeting</td>
+  <td class="small">10:00 AM</td>
+  <td class="small">10:00 AM</td>
+  <td class="text-end">
+      <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+  </td>
+</tr>
+<tr>
+  <td>
+      <a href="#" class="text-primary small">Emily Clark</a><br />
+      <small class="text-muted">emily.clark@example.com</small>
+  </td>
+  <td>
+      <a href="#" class="text-primary small">Michael Johnson</a>
+  </td>
+  <td class="small">Interview</td>
+  <td class="small">5:00 AM</td>
+  <td class="small">10:00 AM</td>
+  <td class="text-end">
+    <a href="#" class="btn btn-sm bg-light shadow-sm">View</a>
+</td>
+</tr>
+            </tbody>
+        </table>
+    </div>
+    
+      <div class="card-footer border-0 py-5">
+        <span class="text-muted text-sm">Showing 10 items out of 250 results found</span>
+      </div>
+    </div>
+    
+</div>
+</div>
+</main>
+@endsection

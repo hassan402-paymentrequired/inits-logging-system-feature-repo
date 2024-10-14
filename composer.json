@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.8",
+        "nesbot/carbon": "^2.72",
         "php-open-source-saver/jwt-auth": "^2.7"
     },
     "require-dev": {
