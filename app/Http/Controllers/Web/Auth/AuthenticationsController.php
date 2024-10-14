@@ -22,7 +22,7 @@ class AuthenticationsController extends Controller
 
     public function login():View
     {
-        return view("auth.login"); //TODO: remove welcome
+        return view("auth.login"); 
     }
 
     public function authenticateUser(Request $request)
@@ -36,13 +36,13 @@ class AuthenticationsController extends Controller
             return redirect()->back()->with("error", "Invalid credentials");
         }
 
-         $response =  $this->authenticationService->login($request->email, $request->password);
+        $remember_me = $request->rememberMe ? true : false;
+
+         $response =  $this->authenticationService->login($request->email, $request->password, $remember_me );
 
         if($response['status'] == 400) {
             return redirect()->back()->with("error", "Invalid email or password");
         }
-    
-
         return redirect()->intended(route('dashboard'))->with("success", "Logged in successfully");
     }
 

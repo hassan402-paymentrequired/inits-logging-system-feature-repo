@@ -17,11 +17,12 @@ class OauthController extends Controller
 
     public function handleCallback()
     {
+
         $user_google_cred = Socialite::driver('google')->stateless()->user();
         $user = User::where('email', $user_google_cred->email)->first();
 
         if (!$user) {
-            return redirect()->back()->with('no_user_found', "The credentials does'nt not match our record");
+            return redirect(route('login'))->with('error', "wrong credentials");
         }
 
         Auth::login($user);

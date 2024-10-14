@@ -78,9 +78,11 @@ class VisitorsController extends Controller
             'check_out_time' => null,
             'duration_time' => null,
         ]);
+
     
         // Redirect to a valid route after successful check-in
         return redirect()->route('visitors')->with('success', ' Checked in Visitor successfully');
+
     }
     
 

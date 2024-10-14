@@ -20,7 +20,7 @@ class AuthenticationService implements AuthenticationServiceInterface
      * @return string[]
      * @return string $token
      */
-    public function login(string $email, string $password): array
+    public function login(string $email, string $password, bool $remember_me = false): array
     {
         $user = User::where('email', $email)->first();
 
@@ -29,7 +29,7 @@ class AuthenticationService implements AuthenticationServiceInterface
             return ['email' => 'The provided credentials are incorrect.', 'status' => 400];
         }
 
-        Auth::login($user);
+        Auth::login($user, $remember_me);
 
         $token =  $user->createToken("inits-staff-user-token")->plainTextToken;
 
