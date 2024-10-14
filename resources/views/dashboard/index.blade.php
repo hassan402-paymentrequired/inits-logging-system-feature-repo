@@ -104,7 +104,7 @@
             <div class="col-lg-4">
               <div class="card card-raised h-100">
                 <div class="card-header bg-transparent p-4">
-                  <h5 class="card-title fw-normal"><small>Checkins demographics</small></h5>
+                  <h5 class="card-title fw-normal"><small>Check-in demographics</small></h5>
                   {{--  <div class="dropdown d-inline-block">
                     <button class="btn btn-text-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                       Gender

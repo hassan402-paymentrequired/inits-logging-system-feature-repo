@@ -44,7 +44,7 @@ Route::group(['prefix' => 'v1'], function () {
 
 Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
     Route::get("/dashboard", [AdminController::class, 'index'])->name('dashboard');
-    Route::post('/dashboard/create', [VisitorsController::class, 'store'])->name('add-visitors');
+    Route::post('/visitors/create', [VisitorsController::class, 'store'])->name('add-visitors');
 });
 
  
