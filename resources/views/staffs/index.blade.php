@@ -11,12 +11,19 @@
       ['name' => 'Staffs', 'url' => '#', 'active' => false],
       ['name' => 'Overview', 'url' => '#', 'active' => true],
   ],
-  'buttonUrl' => '#', // Replace with actual URL for adding a new visitor
-  'buttonIcon' => 'bi bi-person-plus', // Icon for adding a new visitor
-  'buttonText' => 'Add New Staff' // Text for adding a new visitor
+  'buttonUrl' => '#', 
+  'buttonIcon' => 'bi bi-person-plus',
+  'buttonText' => 'Add New Staff' ,
+  'buttonType' => '#',
+  'buttonmodalId' => '#',
+  'buttonModelType'=> '#'
 ])
 {{--  @include('components.Filters')  --}}
+{{--  <x-modal visitorsModel='addStaffModalLabel' modalType="staff" />  --}}
+{{-- Include the Data Table Component for Visitors --}}
+<x-data-table :data="$staffs" type="staffs" />
+<script>
 
-<x-data-table :data="$Staffs_for_the_month" type="staffs" />
+
 
 @endsection

@@ -27,6 +27,7 @@
 {{-- Include the Data Table Component for Visitors --}}
 <x-data-table :data="$visitors_for_the_month" type="visitors" />
 <script>
+   
       @if (session('success'))
     Swal.fire({
         icon: 'success',
