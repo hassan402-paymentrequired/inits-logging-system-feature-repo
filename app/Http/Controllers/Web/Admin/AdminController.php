@@ -95,6 +95,18 @@ class AdminController extends Controller
         ]);
     }
 
+   public function notifications() {
+        return view('notifications.index');
+    }
+
+    public function function () {
+        return view('analytics.index');
+    }
+
+    function geofence() {
+        return view('geofencing.index');
+    }
+
     public function getAllTheVisitorForTheMonth(Request $request)
     {
         // Get the number of entries per page from the request, defaulting to 10
