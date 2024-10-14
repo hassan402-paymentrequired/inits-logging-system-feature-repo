@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class VisitorsController extends Controller
@@ -15,8 +16,7 @@ class VisitorsController extends Controller
      */
     public function index(Visitor $visitor)
     {
-        $visitor = $visitor->load('user');
-        return view('visitor', ['visitor' => $visitor]);
+       //TODO:move here
     }
 
     /**
@@ -56,37 +56,67 @@ class VisitorsController extends Controller
             'phone_number' => $request->phone_number,
             'purpose_of_visit' => $request->purpose_of_visit,
             'staff_id' => $staff->id,
-            'admin_id' => $request->admin_id
+            'admin_id' => auth()->user()->id
         ])->visitorhistories()->create([
             'check_in_time' => date('Y-m-d H:i:s'),
             'check_out_time' => null,
             'duration_time' => null,
         ]);
 
-        dd("hello world");
+        return redirect('/v1/admin/visitors');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    // public function edit(Visitor $visitor)
+    // {
+    //     $visitor = $visitor->load('user', 'visitorhistories');
+    //     return view('visitor', ['visitor' => $visitor]);
+    // }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $visitor)
+    public function update(Request $request, Visitor $visitor)
     {
-        dd($request->all(), $visitor);
+        $visitors_infos = Validator::make($request->all(), [
+            'name' => 'required|min:3',
+            'phone_number' => 'required',
+            'staff' => 'required|email|exists:users,email'
+        ]);
+
+        if($visitors_infos->fails())
+        {
+            return redirect()->back()->withErrors($visitors_infos);
+        }
+
+        $staff = User::where('email', $request->staff)->first();
+        if(!$staff)
+        {
+            return redirect()->back()->with('invalid', 'No staff found with the provided email');
+        }
+
+        $visitor->update([
+            'name' => $request->name,
+            'phone_number' => $request->phone_number,
+            'purpose_of_visit' => $request->purpose_of_visit,
+            'staff_id' => $staff->id,
+            'admin_id' => Auth::id()
+        ]);
+
+        return redirect('/v1/visitors');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function checkOut(Visitor $visitor)
     {
-        //
+        $visitor->visitorhistories()->update([
+            'check_out_time' => date('Y-m-d H:i:s')
+        ]);
+
+        return redirect("/v1/visitors");
     }
 }
