@@ -29,16 +29,18 @@ Route::group(['prefix' => 'v1'], function () {
 Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
     Route::get("/dashboard", [AdminController::class, 'index'])->name('dashboard');
     Route::post('/visitors/create', [VisitorsController::class, 'store'])->name('add-visitors');
-    Route::post('/dashboard/create', [VisitorsController::class, 'store'])->name('add-visitors');
+
     Route::get('/admin/visitors/update/{visitor}', [VisitorsController::class, 'edit'])->name('update-visitor-form'); 
     Route::patch('/admin/visitors/update/{visitor}', [VisitorsController::class, 'update'])->name('update-visitor-data');
     Route::patch('/admin/visitors/check-out/{visitor}', [VisitorsController::class, 'checkOut'])->name('check-visitor-out');
     Route::get('/visitors', [AdminController::class, 'getAllTheVisitorForTheMonth'])->name('visitors');
     Route::get('/notifications', [AdminController::class, 'notifications'])->name('notifications');
     Route::get('/analytics', [AdminController::class, 'analytics'])->name('analytics');
+
     Route::get('/geofencing', [AdminController::class, 'geofence'])->name('geofencing');
 });
 
 Route::post('/admin/staff', [StaffController::class, 'store']);
+
 Route::get('/auth/redirect',[OauthController::class, 'redirectToGoogleAuth'] );
 Route::post("/logout", [AuthenticationsController::class, 'logout']);

@@ -22,11 +22,23 @@
 
 
 {{--  .blade  --}}
-<x-modal visitorsModel='addVisitorModalLabel' modalType="visitor" />
+<x-modal :data="$staffs" visitorsModel='addVisitorModalLabel' modalType="visitor" />
 
 
 
 {{-- Include the Data Table Component for Visitors --}}
 <x-data-table :data="$visitors_for_the_month" type="visitors" />
-
+<script>
+      @if (session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: '{{ session('success') }}',
+        position: 'top-end',
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false
+    });
+    @endif
+  </script>
 @endsection

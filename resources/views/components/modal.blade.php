@@ -6,35 +6,40 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="visitorForm">
+                <form id="visitorForm" action="{{ route('add-visitors') }}"  method="POST" >
+                    @csrf
+
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" required>
+                        <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="mb-3">
                         <label for="phoneNumber" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="phoneNumber" required>
+                        <input type="tel" class="form-control" id="phoneNumber" name="phone_number" required>
                     </div>
                     <div class="mb-3">
                         <label for="purposeOfVisit" class="form-label" id="purposeLabel">Purpose of Visit</label>
-                        <input type="text" class="form-control" id="purposeOfVisit" required>
+                        <input type="text" class="form-control" id="purposeOfVisit" name="purpose_of_visit" required>
                     </div>
                     <div class="mb-3" id="staffSelectContainer" style="display: none;">
                         <label for="staffSelect" class="form-label">Select Staff</label>
-                        <select class="form-select" id="staffSelect" required>
+                        <select class="form-select" id="staffSelect" name="staff" required>
                             <option value="" disabled selected>Select a staff member</option>
-                            <option value="1">Staff Member 1</option>
-                            <option value="2">Staff Member 2</option>
-                            <option value="3">Staff Member 3</option>
+                            @foreach($data as $item)
+                            @foreach($item->users as $user)
+                                <option value="{{ $user->email }}">{{ $user->name }}</option>
+                            @endforeach
+                        @endforeach
                             <!-- Add more staff options here -->
                         </select>
                     </div>
-                </form>
             </div>
             <div class="modal-footer">
                 {{--  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>  --}}
-                <button type="button" class="btn btn-primary" id="submitVisitor">Check-in</button>
+                <button type="submit" class="btn btn-primary" id="">Check-in</button>
             </div>
+        </form>
+
         </div>
     </div>
   </div>
@@ -61,7 +66,7 @@
             }
         });
   
-        document.getElementById('submitVisitor').addEventListener('click', function () {
+        document.getElementById('submitVisitor').addEventListener('submit', function () {
             const name = document.getElementById('name').value;
             const phoneNumber = document.getElementById('phoneNumber').value;
             const purposeOfVisit = document.getElementById('purposeOfVisit').value;

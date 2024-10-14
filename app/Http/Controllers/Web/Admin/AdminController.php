@@ -128,8 +128,9 @@ class AdminController extends Controller
                 });
             })
             ->paginate($perPage);
-        $items = $visitors_for_the_month->items();
 
+            
+// dd($staffs);
 
         return view('visitors.index', [
             'visitors_for_the_month' => $visitors_for_the_month,
