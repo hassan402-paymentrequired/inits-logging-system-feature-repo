@@ -25,48 +25,64 @@ class VisitorsController extends Controller
     public function store(Request $request)
     {
 
+        // Validate incoming data
         $visitors_infos = Validator::make($request->all(), [
             'name' => 'required|min:3',
             'phone_number' => 'required',
-            'staff' => 'required|email|exists:users,email'
+            'staff' => 'required|email|exists:users,email',
+            'purpose_of_visit' => 'required'
         ]);
 
-        if($visitors_infos->fails())
-        {
-            return redirect()->back()->withErrors($visitors_infos);
+        // dd($request);
+
+    
+        // Check if validation fails
+        if($visitors_infos->fails()) {
+            return redirect()->back()->with('error', 'invalid infos');
         }
+    
+
+
+        // Find the staff by email
         $staff = User::where('email', $request->staff)->first();
-        if(!$staff)
-        {
+        if(!$staff) {
             return redirect()->back()->with('invalid', 'No staff found with the provided email');
         }
-        $visitor_already_exist = Visitor::where('name',$request->name)->first();
-        if($visitor_already_exist){
+
+    
+        // Check if visitor already exists
+        $visitor_already_exist = Visitor::where('name', $request->name)->first();
+        if($visitor_already_exist) {
+            // Create a visitor history for the existing visitor
             $visitor_already_exist->visitorhistories()->create([
-                'check_in_time' =>date('Y-m-d H:i:s'),
+                'check_in_time' => now(),
                 'check_out_time' => null,
                 'duration_time' => null,
             ]);
-
-            return redirect('/dash'); //TODO: enywhere you want to redirect them to dash does not exist
+    
+            // Redirect to a valid route
+            return redirect()->route('visitors')->with('success', 'Visitor checked in successfully');
         }
-
-        $visitor = Visitor::create([
+    
+        // If visitor doesn't exist, create a new visitor and history
+        $new_visitor = Visitor::create([
             'name' => $request->name,
             'phone_number' => $request->phone_number,
             'purpose_of_visit' => $request->purpose_of_visit,
             'staff_id' => $staff->id,
-            'admin_id' => auth()->user()->id
-        ])->visitorhistories()->create([
-            'check_in_time' => date('Y-m-d H:i:s'),
+            'admin_id' => Auth::id()
+        ]);
+    
+        $new_visitor->visitorhistories()->create([
+            'check_in_time' => now(),
             'check_out_time' => null,
             'duration_time' => null,
         ]);
-        return redirect()->route('visitor.index')->with('success', 'Visitor created and checked in successfully!');
-        return redirect('/v1/admin/visitors');
-
-      
+    
+        // Redirect to a valid route after successful check-in
+        return redirect()->route('visitors')->with('success', ' Checked in Visitor successfully');
     }
+    
 
     /**
      * Display the specified resource.

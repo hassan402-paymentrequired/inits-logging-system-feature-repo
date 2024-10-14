@@ -36,6 +36,11 @@
 
             <div class="datatable-container">
                 <table class="table table-bordered table-striped table-hover" id="datatablesSimple">
+                    @if (session('error'))
+                    <div class="alert alert-danger mt-2 p-2 d-flex align-items-center justify-content-center">
+                        {{ session('error') }}
+                    </div>
+                @endif
                     <thead class="">
                         <tr class="p-4">
                             @if($type === 'visitors')
@@ -52,6 +57,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        
                         @foreach($data as $item)
                             <tr class="p-4">
                                 @if($type === 'visitors')
