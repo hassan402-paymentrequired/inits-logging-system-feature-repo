@@ -1,3 +1,4 @@
+
 <div class="card p-0">
     <div class="card-header bg-white p-4">
         <div>
@@ -41,11 +42,10 @@
                                 <th data-sortable="true"><small class="fw-semibold text-muted">Name</small></th>
                                 <th data-sortable="true"><small class="fw-semibold text-muted">Phone Number</small></th>
                                 <th data-sortable="true"><small class="fw-semibold text-muted">Purpose of Visit</small></th>
-                                <th data-sortable="true"><small class="fw-semibold text-muted">Host</small></th>
+                                <th data-sortable="true"><small class="fw-semibold text-muted">Host/staff</small></th>
                             @elseif($type === 'staffs')
                                 <th data-sortable="true"><small class="fw-semibold text-muted">Name</small></th>
                                 <th data-sortable="true"><small class="fw-semibold text-muted">Email</small></th>
-                              
                                 <th data-sortable="true"><small class="fw-semibold text-muted">Phone Number</small></th>
                             @endif
                         </tr>
@@ -54,16 +54,38 @@
                         @foreach($data as $item)
                             <tr class="p-4">
                                 @if($type === 'visitors')
-                                    <td> <a href="{{ route('update-visitor-data', $item->visitor->id) }}" class="text-decoration-none text-muted">
-                                        <small class="fw-normal">{{ $item->visitor->name }}</small>
-                                    </a></td>
-                                    <td><small class="fw-normal text-muted">{{ $item->visitor->phone_number }}</small></td>
-                                    <td><small class="fw-normal text-muted">{{ $item->visitor->purpose_of_visit }}</small></td>
-                                    <td>{{ $item->visitor->user->name }}</td>
+                                    <td>
+                                        <a href="{{ route('update-visitor-data', $item->visitor->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Visitor">
+                                            <small class="fw-normal">{{ $item->visitor->name }}</small>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('update-visitor-data', $item->visitor->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Visitor">
+                                            <small class="fw-normal">{{ $item->visitor->phone_number }}</small>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('update-visitor-data', $item->visitor->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Visitor">
+                                            <small class="fw-normal">{{ $item->visitor->purpose_of_visit }}</small>
+                                        </a>
+                                    </td>
+                                    <td class="text-">{{ $item->visitor->user->name }}</td>
                                 @elseif($type === 'staffs')
-                                    <td><a href="{{ route('update-visitor-data', $item->id) }}" class="text-decoration-none text-muted">{{ $item->name }}</a></td>
-                                    <td>{{ $item->email }}</td>
-                                    <td>{{ $item->phone_number }}</td>
+                                    <td>
+                                        <a href="{{ route('update-staff-data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
+                                            <small>{{ $item->name }}</small>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('update-staff-data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
+                                            <small>{{ $item->email }}</small>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('update-staff-data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
+                                            <small>{{ $item->phone_number }}</small>
+                                        </a>
+                                    </td>
                                 @endif
                             </tr>
                         @endforeach
@@ -82,3 +104,5 @@
         </form>
     </div>
 </div>
+
+

@@ -73,6 +73,22 @@ class StaffController extends Controller
         //
     }
 
+     /**
+     * Display the specified resource.
+     */
+
+     public function edit(string $id)
+     {
+        $staff = User::find($id)->with('role')->first();
+        // dd($user);
+ // Check if staff exists
+        if (!$staff) {
+        return redirect()->route('staffs.index')->with('error', 'Staff not found');
+    }
+    return view('staffs.edit', compact('staff'));
+     }
+   
+
     /**
      * Update the specified resource in storage.
      */

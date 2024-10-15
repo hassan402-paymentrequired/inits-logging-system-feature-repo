@@ -1,4 +1,4 @@
-{{-- resources/views/components/breadcrumb.blade.php --}}
+
 <div class="d-flex justify-content-between align-items-center">
   <div>
       <h1 class="h2">{{ $title }}</h1>

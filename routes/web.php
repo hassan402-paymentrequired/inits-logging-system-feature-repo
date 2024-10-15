@@ -33,8 +33,12 @@ Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
     Route::get('/admin/visitors/update/{visitor}', [VisitorsController::class, 'edit'])->name('update-visitor-form'); 
     Route::patch('/admin/visitors/update/{visitor}', [VisitorsController::class, 'update'])->name('update-visitor-data');
     Route::patch('/admin/visitors/check-out/{visitor}', [VisitorsController::class, 'checkOut'])->name('check-visitor-out');
+    Route::get('/admin/staffs/update/{staff}', [StaffController::class, 'edit'])->name('update-staff-form');
+
+    Route::patch('/admin/staffs/update/{staff}', [StaffController::class, 'update'])->name('update-staff-data');
+    
     Route::get('/visitors', [AdminController::class, 'getAllTheVisitorForTheMonth'])->name('visitors');
-Route::post('/admin/staff', [StaffController::class, 'store']);
+    Route::post('/admin/staff', [StaffController::class, 'store']);
     Route::get('/notifications', [AdminController::class, 'notifications'])->name('notifications');
     Route::get('/analytics', [AdminController::class, 'analytics'])->name('analytics');
     Route::get('/geofencing', [AdminController::class, 'geofence'])->name('geofencing');

@@ -5,8 +5,7 @@
 @section('main-content')
 
 @php
-    $chartIcon = count($checked_in_staff_today) < 60 ? 'bi-graph-down-arrow' : 'bi-graph-up-arrow';
-    $chartIconColor = count($checked_in_staff_today) < 60 ? 'text-danger' : 'text-success';
+
 
 
     $busiestWeekData = [
@@ -54,33 +53,48 @@
 </div>
 
 {{-- Card Components for Staff, Visitors, and Overall Activities --}}
-<x-card borderColor="border-success" colorClass="shalow-green" icon="bi-binoculars" iconColor="text-success" textColor="text-success" count="{{ count($checked_in_staff_today) + count($checked_in_visitors_today) }}" countsColor="text-success" title="Overall checkin's" chartIcon="bi-activity" chartIconColor="text-success" />
+<x-card
+    borderColor="border-success"
+    colorClass="shalow-green"
+    icon="bi-binoculars"
+    iconColor="text-success"
+    toolTipTitle="View all checked-in staff and visitors for today"
+    count="{{ count($checked_in_staff_today) + count($checked_in_visitors_today) }}"
+    countsColor="text-success"
+    title="Overall check-in"
+    chartIcon="bi-activity"
+    chartIconColor="text-success"
 
-<x-card 
-    borderColor="border-primary" 
-    colorClass="shalow-blue" 
-    icon="bi-person-workspace" 
-    iconColor="text-primary" 
-    textColor="text-dark" 
-    count="{{ count($checked_in_staff_today) }}" 
-    countsColor="text-primary" 
-    title="Checked-in Staffs" 
-    chartIcon="{{ $chartIcon }}" 
-    chartIconColor="{{ $chartIconColor }}" 
 />
 
-<x-card borderColor="border-secondary"
- colorClass="shalow-dark"
-  icon="bi-people-fill"
-   iconColor="text-dark"
-    textColor="text-success"
-     count="{{ count($checked_in_visitors_today) }}" 
-     countsColor="text-success" 
-     title="Checked-in Visitors"    
-     chartIcon="{{ $chartIcon }}" 
-     chartIconColor="{{ $chartIconColor }}" 
+<x-card
+    borderColor="border-primary"
+    colorClass="shalow-blue"
+    id="card1"
+    icon="bi-person-workspace"
+    iconColor="text-primary"
+    toolTipTitle="View all checked-in staff for today"
+    count="{{ count($checked_in_staff_today) }}"
+    countsColor="text-primary"
+    title="Checked-in Staffs"
+    chartIcon="bi-bar-chart"
+    chartIconColor="text-primary"
+
 />
 
+<x-card
+    borderColor="border-secondary"
+    colorClass="shalow-dark"
+    icon="bi-people-fill"
+    iconColor="text-dark"
+    toolTipTitle="View all checked-in visitors for today"
+    count="{{ count($checked_in_visitors_today) }}"
+    countsColor="text-success"
+    title="Checked-in Visitors"
+    chartIcon="bi-graph-up"
+    chartIconColor="text-dark"
+ 
+/>
 
 
 {{-- Analytics Overview (Heat Chart for Busiest Week) --}}
@@ -129,8 +143,6 @@
   </div>
 </div>
 
-
-
 {{-- Chart.js Script for Heat Chart --}}
 <script>
   const ctx = document.getElementById('busiestWeekChart').getContext('2d');
@@ -142,29 +154,29 @@
               label: 'Check-Ins',
               data: {!! json_encode($checkInCounts) !!}, // Daily check-in counts
               backgroundColor: function(context) {
-                  const value = context.dataset.data[context.dataIndex];
-                  let color;
-                  if (value < 20) {
-                      color = 'rgba(255, 99, 132, 0.2)'; // Low count (light red)
-                  } else if (value < 30) {
-                      color = 'rgba(255, 159, 64, 0.2)'; // Medium count (orange)
-                  } else {
-                      color = 'rgba(75, 192, 192, 0.2)'; // High count (light green)
-                  }
-                  return color;
-              },
-              borderColor: function(context) {
-                  const value = context.dataset.data[context.dataIndex];
-                  let borderColor;
-                  if (value < 20) {
-                      borderColor = 'rgba(255, 99, 132, 1)'; // Low count (red)
-                  } else if (value < 30) {
-                      borderColor = 'rgba(255, 159, 64, 1)'; // Medium count (orange)
-                  } else {
-                      borderColor = 'rgba(75, 192, 192, 1)'; // High count (green)
-                  }
-                  return borderColor;
-              },
+                const value = context.dataset.data[context.dataIndex];
+                let color;
+                if (value < 20) {
+                    color = 'rgba(255, 70, 70, 0.7)'; // Darker light red for low count
+                } else if (value < 30) {
+                    color = 'rgba(255, 140, 0, 0.7)'; // Darker orange for medium count
+                } else {
+                    color = 'rgba(0, 150, 150, 0.7)'; // Darker teal for high count
+                }
+                return color;
+            },
+            borderColor: function(context) {
+                const value = context.dataset.data[context.dataIndex];
+                let borderColor;
+                if (value < 20) {
+                    borderColor = 'rgba(255, 70, 70, 1)'; // Darker red for low count
+                } else if (value < 30) {
+                    borderColor = 'rgba(255, 140, 0, 1)'; // Darker orange for medium count
+                } else {
+                    borderColor = 'rgba(0, 150, 150, 1)'; // Darker teal for high count
+                }
+                return borderColor;
+            },
               borderWidth: 1
           }]
       },
@@ -203,42 +215,6 @@
   @endif
 </script>
 
-{{-- Chart.js Script for Pie Chart --}}
-{{--  <script>
-  const pieCtx = document.getElementById('dashboardPieChart').getContext('2d');
-  const dashboardPieChart = new Chart(pieCtx, {
-      type: 'pie',
-      data: {
-          labels: ['Segment A', 'Segment B', 'Segment C'], // Update with actual labels
-          datasets: [{
-              data: [40, 30, 30], // Replace with dynamic sales data
-              backgroundColor: ['#007bff', '#28a745', '#dc3545'], // Colors for segments
-              hoverBackgroundColor: ['#0056b3', '#218838', '#c82333'],
-              borderWidth: 1
-          }]
-      },
-      options: {
-          responsive: true,
-          plugins: {
-              legend: {
-                  position: 'bottom'
-              }
-          }
-      }
-  });
-
-    @if (session('success'))
-  Swal.fire({
-      icon: 'success',
-      title: 'Success!',
-      text: '{{ session('success') }}',
-      position: 'top-end',
-      timer: 3000,
-      timerProgressBar: true,
-      showConfirmButton: false
-  });
-  @endif
-</script>  --}}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
       var ctx = document.getElementById('dashboardPieChart').getContext('2d');
@@ -255,17 +231,17 @@
                       {{ $visitor_gender_count['female'] }}
                   ],
                   backgroundColor: [
-                      'rgba(54, 162, 235, 0.2)', // Male Staff
-                      'rgba(255, 99, 132, 0.2)', // Female Staff
-                      'rgba(75, 192, 192, 0.2)', // Male Visitors
-                      'rgba(255, 159, 64, 0.2)',  // Female Visitors
-                  ],
-                  borderColor: [
-                      'rgba(54, 162, 235, 1)',
-                      'rgba(255, 99, 132, 1)',
-                      'rgba(75, 192, 192, 1)',
-                      'rgba(255, 159, 64, 1)'
-                  ],
+                    'rgba(54, 162, 235, 0.6)', // Male Staff (Darker)
+                    'rgba(255, 99, 132, 0.6)', // Female Staff (Darker)
+                    'rgba(75, 192, 192, 0.6)', // Male Visitors (Darker)
+                    'rgba(255, 159, 64, 0.6)',  // Female Visitors (Darker)
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1.0)', // Male Staff (Darker)
+                    'rgba(255, 99, 132, 1.0)', // Female Staff (Darker)
+                    'rgba(75, 192, 192, 1.0)', // Male Visitors (Darker)
+                    'rgba(255, 159, 64, 1.0)'  // Female Visitors (Darker)
+                ],
                   borderWidth: 1
               }]
           },
@@ -279,7 +255,28 @@
           }
       });
   });
-</script>
 
+  function showModal(title, staff, visitors) {
+    // Create a new modal instance
+    const modal = new bootstrap.Modal(document.getElementById('checkInModal'));
+    
+    // Update the modal component
+    const modalBody = document.getElementById('modal-content-area');
+    modalBody.innerHTML = `
+        <h5>${title}</h5>
+        <h6>Checked-in Staff:</h6>
+        <ul>
+            ${staff.map(s => `<li>${s.name} - ${s.position}</li>`).join('')}
+        </ul>
+        <h6>Checked-in Visitors:</h6>
+        <ul>
+            ${visitors.map(v => `<li>${v.name} - ${v.purpose}</li>`).join('')}
+        </ul>
+    `;
+
+    // Show the modal
+    modal.show();
+}
+</script>
 @endsection
 

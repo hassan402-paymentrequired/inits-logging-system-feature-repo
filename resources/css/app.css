@@ -17,7 +17,6 @@ li {
 :root {
     --poppins: "Poppins", sans-serif;
     --lato: "Lato", sans-serif;
-
     --light: #f9f9f9;
     --blue: #3c91e6;
     --light-blue: #cfe8ff;
@@ -205,24 +204,6 @@ body {
     overflow-y: auto;
 }
 
-/* 
-#content main .head-title .left .breadcrumb {
-    display: flex;
-    align-items: center;
-    grid-gap: 16px;
-}
-#content main .head-title .left .breadcrumb li {
-    color: var(--dark);
-}
-#content main .head-title .left .breadcrumb li a {
-    color: var(--dark-grey);
-    pointer-events: none;
-}
-#content main .head-title .left .breadcrumb li a.active {
-    color: var(--blue);
-    pointer-events: unset;
-} */
-
 .shalow-green {
     background-color: #4bb94b33;
 }
@@ -261,5 +242,9 @@ body {
 }
 
 select {
+    cursor: pointer;
+}
+
+td {
     cursor: pointer;
 }
