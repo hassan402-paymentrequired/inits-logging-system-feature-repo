@@ -5,6 +5,13 @@ use Illuminate\Http\Request;
 
 interface AuthenticationServiceInterface
 {
-    public function login(string  $email, string $password): array;
-    public function logout(Request $request);
+    public function webLogin(string  $email, string $password): array;
+    public function webLogout(Request $request);
+
+  
+    public function ApiLogin(string $email, bool $remember_me);
+
+    public function getLoginUser(Request $request);
+    public function ApiLogout(Request $request);
+
 }

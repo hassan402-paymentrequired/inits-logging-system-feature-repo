@@ -117,7 +117,6 @@ class AdminController extends Controller
 
         $staffs = Role::where('name', 'Staff')->with('users')->get();
 
-        // Build the query
         $visitors_for_the_month = VisitorHistories::whereMonth('check_in_time', date('m'))
             ->whereYear('check_in_time', date('Y'))
             ->with(['visitor.user'])

@@ -14,28 +14,49 @@ class AuthenticationsController extends Controller
     public function __construct(AuthenticationService $authenticationService){
         $this->authenticationService = $authenticationService;
     }
-    public function authenticateUser(Request $request): JsonResponse
+    // public function authenticateUser(Request $request): JsonResponse
+    // {
+    //     $credentials = Validator::make($request->all(), [
+    //         //|exists:users,email TODO: add exist check to email
+    //         "email" => "required|email",
+    //         "password" => "required"
+    //     ]);
+
+    //     if($credentials->fails()){
+    //         return $this->responseWithCustomError($credentials->errors(), 400);
+    //     }
+
+
+    //     return $this->respondWithCustomData(
+    //         $this->authenticationService->login($request->email, $request->password)
+    //     );
+    // }
+
+    public function staffLogin(Request $request)
     {
         $credentials = Validator::make($request->all(), [
-            //|exists:users,email TODO: add exist check to email
-            "email" => "required|email",
-            "password" => "required"
+            "email" => "required|email|exists:users,email",
         ]);
 
         if($credentials->fails()){
             return $this->responseWithCustomError($credentials->errors(), 400);
         }
-
-
         return $this->respondWithCustomData(
-            $this->authenticationService->login($request->email, $request->password)
+            $this->authenticationService->ApiLogin($request->email)
         );
     }
 
 
     public function logout(Request $request)
     {
-            $this->authenticationService->logout($request);
-            return "user logged out";
+          return  $this->authenticationService->ApiLogout($request);
+  
+    }
+
+    public function getLoggedInUser(Request $request)
+    {
+        return $this->respondWithProxyData(
+            $this->authenticationService->getLoginUser($request)
+        );
     }
 }
