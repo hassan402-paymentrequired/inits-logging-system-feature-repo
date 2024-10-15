@@ -31,13 +31,7 @@ class AuthenticationService implements AuthenticationServiceInterface
 
         Auth::login($user, $remember_me);
 
-        $token =  $user->createToken("inits-staff-user-token")->plainTextToken;
-
-        return [
-            $user,
-            $token,
-            "status" => 200
-        ];
+        return ["status" => 200];
     }
 
     /**
