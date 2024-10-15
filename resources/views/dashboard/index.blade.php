@@ -5,9 +5,6 @@
 @section('main-content')
 
 @php
-
-
-
     $busiestWeekData = [
         'Monday' => 15,
         'Tuesday' => 25,
@@ -29,13 +26,13 @@
       ['name' => 'Dashboard', 'url' => '#', 'active' => false],
       ['name' => 'Home', 'url' => '#', 'active' => true],
   ],
-  'buttonUrl' => '#', // Replace with actual URL for the button
-  'buttonIcon' => 'bi bi-filetype-pdf', // Change icon as needed
+  'buttonUrl' => '#', 
+  'buttonIcon' => 'bi bi-filetype-pdf', 
   'buttonText' => 'Download PDF',
   'buttonType' => '#',
   'buttonmodalId' => '#',
   'buttonModelType'=> '#'
-   // Change text as needed
+   
 ])
 
 <div class="d-flex flex-column flex-md-row align-items-center w-100 mb-3">
@@ -312,42 +309,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
       var ctx = document.getElementById('dashboardPieChart').getContext('2d');
-      var dashboardPieChart = new Chart(ctx, {
-          type: 'pie',
-          data: {
-              labels: ['Male Staff', 'Female Staff', 'Male Visitors', 'Female Visitors'],
-              datasets: [{
-                  label: 'Gender Distribution',
-                  data: [
-                      {{ $staff_gender_count['male'] }},
-                      {{ $staff_gender_count['female'] }},
-                      {{ $visitor_gender_count['male'] }},
-                      {{ $visitor_gender_count['female'] }}
-                  ],
-                  backgroundColor: [
-                    'rgba(54, 162, 235, 0.6)', // Male Staff (Darker)
-                    'rgba(255, 99, 132, 0.6)', // Female Staff (Darker)
-                    'rgba(75, 192, 192, 0.6)', // Male Visitors (Darker)
-                    'rgba(255, 159, 64, 0.6)',  // Female Visitors (Darker)
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1.0)', // Male Staff (Darker)
-                    'rgba(255, 99, 132, 1.0)', // Female Staff (Darker)
-                    'rgba(75, 192, 192, 1.0)', // Male Visitors (Darker)
-                    'rgba(255, 159, 64, 1.0)'  // Female Visitors (Darker)
-                ],
-                  borderWidth: 1
-              }]
-          },
-          options: {
-              responsive: true,
-              plugins: {
-                  legend: {
-                      position: 'top',
-                  }
-              }
-          }
-      });
+ 
   });
 
 

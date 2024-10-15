@@ -141,16 +141,15 @@ class VisitorsController extends Controller
     public function checkOut(string $id)
     {
 
-        // Get the visitor along with today's visitor history
         $visitor = Visitor::with(['visitorhistories' => function ($query) {
-            $query->whereYear('created_at', date('Y'))
-                  ->whereMonth('created_at', date('m'))
-                  ->whereDay('created_at', date('d'));
+            $query->whereYear('check_in_time', date('Y'))
+                  ->where('check_out_time', null)
+                  ->whereMonth('check_in_time', date('m'))
+                  ->whereDay('check_in_time', date('d'));
         }])->find($id);
 
-       
+       dd($visitor);
     
-        // Check if the visitor and their history for today exist
         if ($visitor && $visitor->visitorhistories->isNotEmpty()) {
             // Update the check_out_time for today's history
             $visitor->visitorhistories->first()->update([
@@ -167,5 +166,4 @@ class VisitorsController extends Controller
         }
     
         return redirect("/v1/visitors")->with('success', 'Visitor checked out successfully.');
-    }
-}
+    }}
