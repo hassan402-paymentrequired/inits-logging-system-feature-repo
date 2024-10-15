@@ -38,44 +38,6 @@ form.addEventListener("submit", (e) => {
     form.submit();
 });
 
-const ctx = document.getElementById("analyticsChart").getContext("2d");
-const analyticsChart = new Chart(ctx, {
-    type: "bar",
-    data: {
-        labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-        datasets: [
-            {
-                label: "Staff Check-Ins",
-                data: [50, 75, 100, 125], // Initial data
-                backgroundColor: "rgba(0, 0, 139, 0.8)", // Dark Blue
-                borderColor: "rgba(0, 0, 139, 1)", // Dark Blue border
-                borderWidth: 1,
-            },
-            {
-                label: "Visitor Check-Ins",
-                data: [30, 45, 60, 80], // Initial data
-                backgroundColor: "rgba(0, 128, 0, 0.8)", // Dark Green
-                borderColor: "rgba(0, 128, 0, 1)", // Dark Green border
-                borderWidth: 1,
-            },
-            {
-                label: "Highest Check-Ins",
-                data: [100, 125, 125, 125], // Highlighted data
-                backgroundColor: "rgba(178, 34, 34, 0.8)", // Dark Red
-                borderColor: "rgba(178, 34, 34, 1)", // Dark Red border
-                borderWidth: 1,
-            },
-        ],
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-            },
-        },
-    },
-});
-
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("searchInput");
     const entriesPerPage = document.getElementById("entriesPerPage");
@@ -136,4 +98,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Initial data fetch
     fetchData(); // Load initial data on page load
+});
+
+// Initialize Bootstrap tooltips
+var tooltipTriggerList = [].slice.call(
+    document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
 });
