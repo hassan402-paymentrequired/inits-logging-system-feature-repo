@@ -1,5 +1,5 @@
 
-<div class="card p-0">
+<div class="card p-0 border border-success border-2">
     <div class="card-header bg-white p-4">
         <div>
             <h5 class="card-title">{{ ucfirst($type) }} List</h5>

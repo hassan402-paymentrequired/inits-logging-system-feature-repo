@@ -37,6 +37,7 @@
   'buttonModelType'=> '#'
    // Change text as needed
 ])
+
 <div class="d-flex flex-column flex-md-row align-items-center w-100 mb-3">
   <small class="text-muted mb-2 mb-md-0 me-md-3">
     Visitor/Staffs checkins overview & summary for: 
@@ -54,6 +55,7 @@
 
 {{-- Card Components for Staff, Visitors, and Overall Activities --}}
 <x-card
+ target="#total-check-ins"
     borderColor="border-success"
     colorClass="shalow-green"
     icon="bi-binoculars"
@@ -68,6 +70,7 @@
 />
 
 <x-card
+ target="#staff-check-ins"
     borderColor="border-primary"
     colorClass="shalow-blue"
     id="card1"
@@ -83,6 +86,7 @@
 />
 
 <x-card
+    target="#visitors-check-ins"
     borderColor="border-secondary"
     colorClass="shalow-dark"
     icon="bi-people-fill"
@@ -141,6 +145,96 @@
         </div>
       </div>
   </div>
+
+  <div id="total-check-ins" class="bg-light border border-success border-2 py-5">
+    <div class="container">
+      <h3 class="text-center mb-5 font-small fw-normal">Checked-in Details for {{ \Carbon\Carbon::parse($selectedDate)->format('F j, Y') }}</h3>
+      
+      {{-- Staff Check-ins --}}
+      <div class="mb-5">
+        <h4 class="text-success text-muted font-small">Checked-in Staff</h4>
+        @if($checked_in_staff_today->count() > 0)
+     <table id="staff-check-ins" class="table table-bordered table-striped table-hover border-2">
+    <thead class="table-light">
+        <tr>
+            <th><small class="text-muted">Name</small></th>
+            <th><small class="text-muted">Email</small></th>
+            <th><small class="text-muted">Check-in Time</small></th>
+            <th><small class="text-muted">Check-out Time</small></th>
+         </tr>
+    </thead>
+    <tbody>
+        @foreach($checked_in_staff_today as $staff)
+            <tr>
+                <td><small class="">{{ $staff->user->name }}</small></td>
+                <td><small class="">{{ $staff->user->email }}</small></td>
+                <td>
+                    <span class="badge check-in-bg-badge"> <small>{{ \Carbon\Carbon::parse($staff->check_in_time)->format('g:i A') }}</small></span>
+                </td>
+                <td>
+                    <span class="badge check-out-bg-badge"> <small>{{ \Carbon\Carbon::parse($staff->check_out_time)->format('g:i A') }}</small></span>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+    </table>
+
+        @else
+          <p>No staff have checked in today.</p>
+        @endif
+      </div>
+  
+   
+      <div>
+        <h4 class="text-muted">Checked-in Visitors</h4>
+        @if(count($checked_in_visitors_today) > 0)
+        <table id="visitors-check-ins" class="table table-bordered table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th><small class="text-muted">Name</small></th>
+                    <th><small class="text-muted">Purpose of visit</small></th>
+                    <th><small class="text-muted">Check-in Time</small></th>
+                    <th><small class="text-muted">Check-out Time</small></th> 
+                    <th><small class="text-muted">Action</small></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($checked_in_visitors_today as $visitor)
+                    <tr>
+                        <td><small>{{ ucwords(strtolower($visitor->visitor->name)) }}</small></td>
+                        <td><small>{{ ucwords(strtolower($visitor->visitor->purpose_of_visit)) }}</small></td>
+                        <td>
+                            <span class="badge check-in-bg-badge"> <small>{{ \Carbon\Carbon::parse($visitor->check_in_time)->format('g:i A') }}</small></span>
+                        </td>
+                        <td>
+                            @if($visitor->check_out_time)
+                                <span class="badge check-out-bg-badge"> <small>{{ \Carbon\Carbon::parse($visitor->check_out_time)->format('g:i A') }}</small></span>
+                            @else
+                                <span class="badge text-warning">Still in Office</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($visitor->check_out_time)
+                                <!-- If checked out, disable the button -->
+                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>Checked Out</button>
+                            @else
+                                <!-- Form for checking out -->
+                                <form method="POST" action="{{ route('check-visitor-out', $visitor->id) }}" class="w-0">
+                                    @method('PATCH')
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Checkout</button>
+                                </form>
+                            @endif
+                        </td>  
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @else
+            <p>No visitors have checked in today.</p>
+        @endif
+    </div>
+    </div>
 </div>
 
 {{-- Chart.js Script for Heat Chart --}}
@@ -256,27 +350,7 @@
       });
   });
 
-  function showModal(title, staff, visitors) {
-    // Create a new modal instance
-    const modal = new bootstrap.Modal(document.getElementById('checkInModal'));
-    
-    // Update the modal component
-    const modalBody = document.getElementById('modal-content-area');
-    modalBody.innerHTML = `
-        <h5>${title}</h5>
-        <h6>Checked-in Staff:</h6>
-        <ul>
-            ${staff.map(s => `<li>${s.name} - ${s.position}</li>`).join('')}
-        </ul>
-        <h6>Checked-in Visitors:</h6>
-        <ul>
-            ${visitors.map(v => `<li>${v.name} - ${v.purpose}</li>`).join('')}
-        </ul>
-    `;
 
-    // Show the modal
-    modal.show();
-}
 </script>
 @endsection
 

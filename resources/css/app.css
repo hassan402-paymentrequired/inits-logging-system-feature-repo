@@ -248,3 +248,11 @@ select {
 td {
     cursor: pointer;
 }
+
+.check-in-bg-badge {
+    background-color: rgba(23, 187, 23, 0.822);
+}
+
+.check-out-bg-badge {
+    background-color: rgba(128, 5, 5, 0.836);
+}

@@ -138,12 +138,34 @@ class VisitorsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function checkOut(Visitor $visitor)
+    public function checkOut(string $id)
     {
-        $visitor->visitorhistories()->update([
-            'check_out_time' => date('Y-m-d H:i:s')
-        ]);
 
-        return redirect("/v1/visitors");
+        // Get the visitor along with today's visitor history
+        $visitor = Visitor::with(['visitorhistories' => function ($query) {
+            $query->whereYear('created_at', date('Y'))
+                  ->whereMonth('created_at', date('m'))
+                  ->whereDay('created_at', date('d'));
+        }])->find($id);
+
+       
+    
+        // Check if the visitor and their history for today exist
+        if ($visitor && $visitor->visitorhistories->isNotEmpty()) {
+            // Update the check_out_time for today's history
+            $visitor->visitorhistories->first()->update([
+                'check_out_time' => now(), // Use Laravel's helper for current timestamp
+            ]);
+        // dd($visitor);
+
+    
+            // Optionally, you can log or dump the visitor history here
+            // dd($visitor->visitorhistories);
+        } else {
+            // Handle the case when no matching visitor or history is found
+            return redirect()->back()->withErrors('No check-in record found for this visitor today.');
+        }
+    
+        return redirect("/v1/visitors")->with('success', 'Visitor checked out successfully.');
     }
 }

@@ -38,12 +38,12 @@ class AdminController extends Controller
         // Get checked-in visitors for the selected date
         $checked_in_visitors_today = VisitorHistories::whereDate('check_in_time', $selectedDate)
             ->with(['visitor.user'])
-            ->get();
+            ->paginate(10);
 
         // Get checked-in staff for the selected date
         $checked_in_staff_today = StaffCheckIns::whereDate('check_in_time', $selectedDate)
             ->with('user')
-            ->get();
+            ->paginate(10);
 
         // Get checked-in visitors for yesterday (if needed)
         $checked_in_visitors_yesterday = VisitorHistories::whereDate('check_in_time', now()->subDay())
