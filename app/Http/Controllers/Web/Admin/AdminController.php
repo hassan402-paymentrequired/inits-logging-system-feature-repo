@@ -70,6 +70,7 @@ class AdminController extends Controller
             'checked_in_staff_yesterday' => $checked_in_staff_yesterday,
             'checked_in_visitors_yesterday' => $checked_in_visitors_yesterday,
             'selectedDate' => $selectedDate, 
+            'recent' => $recent
         ]);
     }
 
