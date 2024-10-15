@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-<x-edit-person :person="$person" type="staff" />
+<x-edit :person="$staff" type="staff" />
 @endsection

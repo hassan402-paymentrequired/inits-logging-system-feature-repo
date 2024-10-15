@@ -19,11 +19,8 @@
   'buttonModelType'=> '#'
 ])
 {{--  @include('components.Filters')  --}}
-{{--  <x-modal visitorsModel='addStaffModalLabel' modalType="staff" />  --}}
+<x-modal visitorsModel='addStaffModalLabel' modalType="staff" />
 {{-- Include the Data Table Component for Visitors --}}
 <x-data-table :data="$staffs" type="staffs" />
 <script>
-
-
-
 @endsection

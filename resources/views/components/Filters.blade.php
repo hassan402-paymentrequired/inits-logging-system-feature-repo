@@ -1,4 +1,3 @@
-{{-- resources/views/components/Filters.blade.php --}}
 <div class="mb-3">
   <div class="d-flex justify-content-between">
       <div>
