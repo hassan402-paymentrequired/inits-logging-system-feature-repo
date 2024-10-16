@@ -23,7 +23,7 @@
 
 
 {{-- Breadcrumb Navigation --}}
-<div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-between align-items-center">
 <x-breadcrumb title="Dashboard" :items="[
     ['name' => 'Dashboard', 'url' => '#', 'active' => false],
     ['name' => 'Home', 'url' => '#', 'active' => true],
@@ -147,7 +147,7 @@
        
             <select id="visitorFilter" class="form-select w-25 ms-auto border border-success" aria-label="Filter visitors">
                 <option value="all">All Visitors</option>
-                <option value="in-office">Still in Office</option>
+                <option value="in-office">On site</option>
                 <option value="checked-out">Check Out</option>
             </select>
         </div>
@@ -171,7 +171,7 @@
                             $tooltip = "Check-in: $checkInTime | Check-out: $checkOutTime";
                         @endphp
     
-                        <tr data-toggle="tooltip" data-placement="top" title="{{ $tooltip }}" class="{{ $visitor->check_out_time ? 'checked-out' : 'still-in-office' }}">
+                        <tr data-toggle="tooltip" data-placement="top" title="{{ $tooltip }}" class="{{ $visitor->check_out_time ? 'checked-out' : 'On site' }}">
                             <td><small>{{ ucwords(strtolower($visitor->visitor->name)) }}</small></td>
                             <td><small>{{ ucwords(strtolower($visitor->visitor->purpose_of_visit)) }}</small></td>
                             <td>
