@@ -5,12 +5,23 @@ namespace App\Http\Controllers\Web\Staffs;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\StaffService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class StaffController extends Controller
 {
+
+    protected StaffService $staffService;
+
+    public function __construct(StaffService $staffService)
+    {
+        $this->staffService = $staffService;
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -84,8 +95,7 @@ class StaffController extends Controller
      public function edit(string $id)
      {
         $staff = User::find($id)->with('role')->first();
-        // dd($user);
- // Check if staff exists
+         // Check if staff exists
         if (!$staff) {
         return redirect()->route('staffs.index')->with('error', 'Staff not found');
     }
@@ -102,7 +112,6 @@ class StaffController extends Controller
             'name' => 'required' ,
             'email' => 'required|email',
             'phone_number' => 'required',
-            // 'role' => 'required'
         ]);
 
         if($validate->fails())
@@ -110,16 +119,13 @@ class StaffController extends Controller
             return redirect()->back()->withErrors($validate);
         }
 
-        $role = Role::where('name' , $request->role)->first();
-
         User::created([
             'name' => $request->name,
-            'phone_number' => $request->phone_number ,
-            // 'role_id' => $role->id ,
+            'phone_number' => $request->phone_number,
             'email' => $request->email,
         ]);
 
-        return redirect('v1/staffs');
+        return redirect('/v1/staffs');
     }
 
     /**
@@ -131,8 +137,13 @@ class StaffController extends Controller
         $user->update([
             'is_active' => 0
         ]);
-        return redirect()->back()->with('success', 'you deactived successfully');
+        return redirect()->back()->with('success', 'user deactived successfully');
     }
+
+       /**
+      * staff actions
+      *
+      */
 
     /**
      * View all staff history
@@ -140,8 +151,25 @@ class StaffController extends Controller
      * @return User 
      */
 
-     public function getStaffCheckInHistory(string $id)
+     public function getStaffCheckInHistory()
      {
+         $staffHistory = auth()->user()->staffcheckins()->get();
+
+         return view('info', ['history' => $staffHistory]);
 
      }
+
+      public function getStaffCurrentVisitors()
+      {
+        $staffCurrentVisitors = auth()->user()->visitors()->with('visitorhistories')->whereDate('check_in_time', Carbon::now())->get();
+
+        return view('info', ['current_visitors' => $staffCurrentVisitors]);
+      }
+
+      public function getStaffVisitorsHistory()
+      {
+        $staffVisitorsHistory = auth()->user()->visitors()->with('visitorhistories')->get();
+
+        //TODO: return redirect
+      }
 }

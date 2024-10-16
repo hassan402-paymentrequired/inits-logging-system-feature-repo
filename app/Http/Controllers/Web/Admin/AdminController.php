@@ -74,16 +74,13 @@ class AdminController extends Controller
         ]);
     }
 
-   public function notifications() {
-        return view('notifications.index');
-    }
-
-    public function function () {
-        return view('analytics.index');
-    }
-
-    function geofence() {
+    public function geofence() {
         return view('geofencing.index');
+    }
+
+    public function storeGeofence(Request $request)
+    {
+        
     }
 
     public function getAllTheVisitorForTheMonth(Request $request)

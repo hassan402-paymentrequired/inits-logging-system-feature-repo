@@ -33,7 +33,6 @@ Route::middleware(['web'])->prefix('v1')->group(function () {
     Route::patch('/admin/visitors/update/{visitor}', [VisitorsController::class, 'update'])->name('update-visitor-data');
     Route::patch('/admin/visitors/check-out/{visitor}', [VisitorsController::class, 'checkOut'])->name('check-visitor-out');
     Route::get('/admin/staffs/update/{staff}', [StaffController::class, 'edit'])->name('update-staff-form');
-
     Route::patch('/admin/staffs/update/{staff}', [StaffController::class, 'update'])->name('update-staff-data');
     
     Route::get('/visitors', [AdminController::class, 'getAllTheVisitorForTheMonth'])->name('visitors');
@@ -42,6 +41,12 @@ Route::middleware(['web'])->prefix('v1')->group(function () {
     Route::get('/analytics', [AdminController::class, 'analytics'])->name('analytics');
     Route::get('/geofencing', [AdminController::class, 'geofence'])->name('geofencing');
     Route::post("/logout", [AuthenticationsController::class, 'logout']);
+});
+
+Route::middleware(['web'])->prefix('v1')->group(function(){
+    Route::get('/check-in-history', [StaffController::class, 'getStaffCheckInHistory'])->name('staff.history');
+    Route::get('/current', [StaffController::class, 'getStaffCurrentVisitors'])->name('staff.current.visitors.for.the.day');
+    Route::get('/info', [StaffController::class, 'getStaffVisitorsHistory'])->name('staff.visitors.history');
 });
 
 
