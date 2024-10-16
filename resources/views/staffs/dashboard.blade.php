@@ -1,7 +1,7 @@
 @extends('layouts.staff-layout')
 <h2 class="heading">Welcome {{ auth()->user()->name }}</h2>
 
-
+{{--  {{ dd($currentVisitors) }}  --}}
 
 {{-- Breadcrumb Navigation --}}
 <div class="d-flex justify-content-between align-items-center">

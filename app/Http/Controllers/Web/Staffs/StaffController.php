@@ -33,7 +33,10 @@ class StaffController extends Controller
      */
     public function index(Request $request)
     {
-        return view('staffs.dashboard');
+        $staffCurrentVisitors = auth()->user()->visitors()->with('visitorhistories')->whereDate('check_in_time', Carbon::now())->get();
+        return view('staffs.dashboard', [
+            'currentVisitors' => $staffCurrentVisitors,
+        ]);
     }
 
     /**
@@ -191,17 +194,16 @@ class StaffController extends Controller
 
      }
 
-      public function getStaffCurrentVisitors()
-      {
-        $staffCurrentVisitors = auth()->user()->visitors()->with('visitorhistories')->whereDate('check_in_time', Carbon::now())->get();
+    //   public function getStaffCurrentVisitors()
+    //   {
 
-        return view('info', ['current_visitors' => $staffCurrentVisitors]);
-      }
+    //     return view('info', ['current_visitors' => $staffCurrentVisitors]);
+    //   }
 
       public function getStaffVisitorsHistory()
       {
         $staffVisitorsHistory = auth()->user()->visitors()->with('visitorhistories')->get();
 
-        //TODO: return redirect
+        return view('staffs.visitors');
       }
 }

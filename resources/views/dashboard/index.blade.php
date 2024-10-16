@@ -34,7 +34,7 @@
 </div>
 
 {{--  .blade  --}}
- <x-modal :data="$staffs" visitorsModel='addVisitorModalLabel' modalType="visitor" /> 
+ <x-modal :data="$staffs" route="add-visitors" visitorsModel='addVisitorModalLabel' modalType="visitor" /> 
 
 <div class="d-flex flex-column flex-md-row align-items-center w-100 mb-3">
   <small class="text-muted mb-2 mb-md-0 me-md-3">

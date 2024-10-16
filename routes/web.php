@@ -29,7 +29,7 @@ Route::group(['prefix' => 'v1'], function () {
 });
 
 Route::middleware(['web', 'admin'])->prefix('v1')->group(function () {
-    Route::get("/dashboard", [AdminController::class, 'index'])->name('dashboard');
+    Route::get("/dmin/dashboard", [AdminController::class, 'index'])->name('dashboard');
     Route::get('/staffs',  [AdminController::class, 'getAllStaffsHistory'])->name('staffs');
     Route::post('/visitors/create', [VisitorsController::class, 'store'])->name('add-visitors');
     Route::get('/admin/visitors/update/{visitor}', [VisitorsController::class, 'edit'])->name('update-visitor-form');
@@ -40,7 +40,7 @@ Route::middleware(['web', 'admin'])->prefix('v1')->group(function () {
     Route::get('/visitors', [AdminController::class, 'getAllTheVisitorForTheMonth'])->name('visitors');
     Route::post('/admin/staff', [StaffController::class, 'store']);
     Route::get('/notifications', [AdminController::class, 'notifications'])->name('notifications');
-    Route::get('/analytics', [AdminController::class, 'analytics'])->name('analytics');
+    Route::post('/add-staff', [AdminController::class, 'createNewStaff'])->name('create.new.staff');
     Route::get('/geofencing', [AdminController::class, 'geofence'])->name('geofencing');
     Route::post("/logout", [AuthenticationsController::class, 'logout']);
     Route::post('/points', [AdminController::class, 'geofence'])->name('mark.view');
@@ -48,7 +48,7 @@ Route::middleware(['web', 'admin'])->prefix('v1')->group(function () {
 });
 
 Route::middleware(['web'])->prefix('v1')->group(function(){
-    Route::get('/dashboard', [StaffController::class, 'index'])->name('staff.dashboard');
+    Route::get('/staff/dashboard', [StaffController::class, 'index'])->name('staff.dashboard');
     Route::get('/check-in-history', [StaffController::class, 'getStaffCheckInHistory'])->name('staff.history');
     Route::get('/current', [StaffController::class, 'getStaffCurrentVisitors'])->name('staff.current.visitors.for.the.day');
     Route::get('/visitors-history', [StaffController::class, 'getStaffVisitorsHistory'])->name('staff.visitors.history');

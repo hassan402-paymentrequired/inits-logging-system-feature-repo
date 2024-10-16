@@ -1,6 +1,11 @@
 
 <div class="card p-0 border border-success border-2">
     <div class="card-header bg-white p-4">
+        
+        @if (session('error') || session('success'))
+        <p class="alert alert-success">{{ session('error') }}</p>
+        <p class="alert alert-success" role="alert">{{ session('success') }}</p>
+        @endif
         <div>
             <h5 class="card-title">{{ ucfirst($type) }} List</h5>
             <small class="text-secondary fw-semibold">Details & History</small>
