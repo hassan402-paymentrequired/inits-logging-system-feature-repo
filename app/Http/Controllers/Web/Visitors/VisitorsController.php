@@ -162,3 +162,4 @@ class VisitorsController extends Controller
     
         return redirect("/v1/dashboard")->with('success', 'Visitor checked out successfully.');
     }
+}
