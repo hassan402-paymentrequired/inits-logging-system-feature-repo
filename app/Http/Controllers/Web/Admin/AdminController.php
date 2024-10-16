@@ -56,11 +56,12 @@ class AdminController extends Controller
             ->with('user')
             ->get();
 
-            
+
 
             // get staffs
             $staffs = User::with('role')->get(); 
 
+            
         // Count the number of staff checked in for the selected date
         $number_of_checked_in_staff_today = $checked_in_staff_today->count();
 
@@ -115,12 +116,11 @@ class AdminController extends Controller
             ->paginate($perPage);
 
             
-// dd($staffs);
 
         return view('visitors.index', [
             'visitors_for_the_month' => $visitors_for_the_month,
-            'search' => $search, // Pass the search query to the view
-            'perPage' => $perPage, // Pass the per page value to the view
+            'search' => $search, 
+            'perPage' => $perPage,
         ]); 
     }
 
