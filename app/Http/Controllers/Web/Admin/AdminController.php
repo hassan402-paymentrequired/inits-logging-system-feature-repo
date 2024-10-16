@@ -9,8 +9,10 @@ use App\Models\User;
 use App\Models\Visitor;
 use App\Models\VisitorHistories;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -69,6 +71,7 @@ class AdminController extends Controller
         // Count the number of staff checked in for the selected date
         $number_of_checked_in_staff_today = $checked_in_staff_today->count();
 
+
         return view('dashboard.index', [
             'checked_in_visitors_today' => $checked_in_visitors_today,
             'checked_in_staff_today' => $checked_in_staff_today,
@@ -79,11 +82,20 @@ class AdminController extends Controller
             'selectedDate' => $selectedDate, 
             'recent_checked_in_staff' => $recent_checked_in_staff,
             'oldest_checked_in_staff' => $oldest_checked_in_staff
+
         ]);
     }
 
-   public function notifications() {
-        return view('notifications.index');
+    public function getAllStaffsHistory(Request $request)
+    {
+        $staffs = User::with('role')
+        ->when($request->search, function ($query) use ($request) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        })
+        ->paginate($request->get('per_page', 10));
+        
+        // Default to 10 entries per page
+    return view('staffs.index', ['staffs' => $staffs]);
     }
 
 
@@ -93,8 +105,11 @@ class AdminController extends Controller
         return view('analytics.index');
     }
 
-    function geofence() {
-        return view('geofencing.index');
+
+    public function storeGeofence(Request $request)
+    {
+        dd($request->all());
+
     }
 
     public function getAllTheVisitorForTheMonth(Request $request)
@@ -129,7 +144,35 @@ class AdminController extends Controller
 
     public function createNewStaff(Request $request)
     {
-        dd($request->all());
+        try {
+            $staff_credentials = Validator::make($request->all(), [
+                'name' => 'required',
+                'phone_number' => 'required',
+                'email' => 'required|unique:users,email'
+            ]);
+    
+            if($staff_credentials->fails())
+            {
+                return redirect()->back()->with('error', 'Invalid credentials');
+            }
+
+            $role_id = Role::where('name', 'Staff')->first();
+    
+            User::create([
+                'name' => $request->name,
+                'phone_number' => $request->phone_number,
+                'email' => $request->email,
+                'password' => 'password',
+                'is_active' => 1,
+                'role_id' => $role_id->id
+            ]);
+    
+            return redirect()->back()->with('success', 'staff created successfully');
+            
+        } catch (Exception $exception) {
+            return redirect()->back()->with('error', 'Network error'.$exception->getMessage());
+        }
+        
     }
 
 }

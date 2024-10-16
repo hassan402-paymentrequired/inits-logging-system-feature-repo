@@ -23,7 +23,7 @@ class SendVisitorsNotificationService
 
         $message = new SmsTextualMessage(
             destinations: [
-                new SmsDestination( '2348107131225')
+                new SmsDestination( '08107131225')
             ],
             from: 'InfoSMS',
             text: 'This is a dummy SMS message sent using infobip-api-php-client'
@@ -41,7 +41,7 @@ class SendVisitorsNotificationService
         }
 
     }
-    public static function send()
+    public static function send($message, $staff = null)
     {
         $url = 'https://2mvxwz.api.infobip.com/sms/2/text/advanced';
 
@@ -49,10 +49,10 @@ class SendVisitorsNotificationService
             'messages' => array(
                 array(
                     'destinations' => array(
-                        array('to' => '2348107131225')
+                        array('to' => '2348107131225') //TODO: add the staff number
                     ),
-                    'from' => '447491163443',
-                    'text' => 'Congratulations on sending your first message.\nGo ahead and check the delivery report in the next step.'
+                    'from' => auth()->user()->name,
+                    'text' => $message
                 )
             )
         );

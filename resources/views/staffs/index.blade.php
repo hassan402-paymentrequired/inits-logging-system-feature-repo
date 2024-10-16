@@ -14,7 +14,7 @@
     <x-modal-button visitorsModel="addStaffModalLabel" modalType="staff" icon="bi bi-person-plus" />
     </div>
     <!-- Include the Modal for Adding New Staff -->
-    <x-modal visitorsModel="addStaffModalLabel" modalType="staff" />
+    <x-modal visitorsModel="addStaffModalLabel" modalType="staff" route="create.new.staff"/>
 
     {{-- Include the Data Table Component for Staffs --}}
     <x-data-table :data="$staffs" type="staffs" />

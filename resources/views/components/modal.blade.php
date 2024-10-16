@@ -1,4 +1,5 @@
 <!-- resources/views/components/modal.blade.php -->
+@props([ 'route' , 'modalType' , 'visitorsModel', 'data'])
 <div class="modal fade" id="{{ $visitorsModel }}" tabindex="-1" aria-labelledby="{{ $visitorsModel }}Label" aria-hidden="true">
     <div class="modal-dialog ">
         <div class="modal-content border border-primary border-2">
@@ -13,7 +14,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('add-visitors') }}" method="POST">
+                <form action="{{ route($route) }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>

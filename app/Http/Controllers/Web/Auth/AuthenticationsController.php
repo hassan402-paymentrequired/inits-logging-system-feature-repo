@@ -43,13 +43,13 @@ class AuthenticationsController extends Controller
         if($response['status'] == 400) {
             return redirect()->back()->with("error", "Invalid email or password");
         }
-        return redirect()->intended(route('dashboard'))->with("success", "Logged in successfully");
+        return redirect('/admin/dashboard')->with("success", "Logged in successfully");
     }
 
     public function logout(Request $request)
     {
        $this->authenticationService->webLogout($request);
-        return redirect('/v1/login');
+        return redirect('/v1');
     }
 
 

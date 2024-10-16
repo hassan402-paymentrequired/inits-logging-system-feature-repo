@@ -58,14 +58,12 @@ class VisitorsController extends Controller
                 'check_in_time' => now(),
                 'check_out_time' => null,
                 'duration_time' => null,
-                'admin_id' => Auth::id()
             ]);
     
-            SendVisitorsNotificationService::send();
+            SendVisitorsNotificationService::send('Yooooo! bro common check it out. You have a visitor down here with the name'.$request->name );
 
            // Redirect to a valid route
             return redirect()->route('dashboard')->with('success', 'Visitor checked in successfully');
-
 
         }
     
@@ -84,7 +82,8 @@ class VisitorsController extends Controller
             'duration_time' => null,
         ]);
 
-    
+        SendVisitorsNotificationService::send('Yooooo! bro common check it out. You have a visitor down here with the name'.$request->name );
+
         // Redirect to a valid route after successful check-in
         return redirect()->route('dashboard')->with('success', ' Checked in Visitor successfully');
 
@@ -99,8 +98,6 @@ class VisitorsController extends Controller
         $visitor = $visitor->load('user');
         return view('visitors.show', ['visitor' => $visitor]);
     }
-
-
 
     /**
      * Update the specified resource in storage.
@@ -160,6 +157,6 @@ class VisitorsController extends Controller
             return redirect()->back()->withErrors('No check-in record found for this visitor today.');
         }
     
-        return redirect("/v1/dashboard")->with('success', 'Visitor checked out successfully.');
+        return redirect("/v1/admin/dashboard")->with('success', 'Visitor checked out successfully.');
     }
 }

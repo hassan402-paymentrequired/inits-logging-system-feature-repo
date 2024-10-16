@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Staffs;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\AuthenticationService;
 use App\Services\StaffService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,12 +15,17 @@ use Illuminate\Support\Facades\Validator;
 class StaffController extends Controller
 {
 
+    protected AuthenticationService $authenticationService;
     protected StaffService $staffService;
 
-    public function __construct(StaffService $staffService)
+    public function __construct(StaffService $staffService, AuthenticationService $authenticationService)
     {
         $this->staffService = $staffService;
+        $this->authenticationService = $authenticationService;
     }
+
+
+    
 
 
     /**
@@ -27,16 +33,10 @@ class StaffController extends Controller
      */
     public function index(Request $request)
     {
-        $staffs = User::with('role')
-        ->when($request->search, function ($query) use ($request) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        })
-        ->paginate($request->get('per_page', 10));
-        
-        // Default to 10 entries per page
-    
-
-    return view('staffs.index', ['staffs' => $staffs]);
+        $staffCurrentVisitors = auth()->user()->visitors()->with('visitorhistories')->whereDate('check_in_time', Carbon::now())->get();
+        return view('staffs.dashboard', [
+            'currentVisitors' => $staffCurrentVisitors,
+        ]);
     }
 
     /**
@@ -44,8 +44,43 @@ class StaffController extends Controller
      */
     public function create()
     {
-        //
+        $staffs = User::whereHas('role', function($query) {
+            $query->where('name', 'Staff');
+        })->get();
+        return view('auth.staff-login', ['staffs' => $staffs]);
     }
+
+    
+
+
+    public function login(Request $request)
+    {
+        $credentials = Validator::make($request->all(), [
+            "email" => "required|email",
+            "password" => "required"
+        ]);
+
+        if($credentials->fails()){
+            return redirect()->back()->with("error", "Invalid credentials");
+        }
+
+        $remember_me = $request->rememberMe ? true : false;
+
+         $response =  $this->authenticationService->webLogin($request->email, $request->password, $remember_me );
+
+         if($response['status'] == 400) {
+            return redirect()->back()->with("error", "Invalid email or password");
+        }
+        return redirect()->intended(route('staff.dashboard'))->with("success", "Logged in successfully");
+     }
+
+
+     public function logout(Request $request)
+     {
+        $this->authenticationService->webLogout($request);
+        return redirect('/v1');
+
+     }
 
     /**
      * Store a newly created resource in storage.
@@ -160,16 +195,17 @@ class StaffController extends Controller
     //  }
 
     //   public function getStaffCurrentVisitors()
-    //   {
+
     //     $staffCurrentVisitors = auth()->user()->visitors()->with('visitorhistories')->whereDate('check_in_time', Carbon::now())->get();
+
 
     //     return view('info', ['current_visitors' => $staffCurrentVisitors]);
     //   }
 
     //   public function getStaffVisitorsHistory()
     //   {
-    //     $staffVisitorsHistory = auth()->user()->visitors()->with('visitorhistories')->get();
 
     //     //TODO: return redirect
     //   }
+=
 }
