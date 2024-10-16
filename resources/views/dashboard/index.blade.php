@@ -5,6 +5,9 @@
 @section('main-content')
 
 @php
+
+
+
     $busiestWeekData = [
         'Monday' => 15,
         'Tuesday' => 25,
@@ -20,7 +23,6 @@
 
 
 {{-- Breadcrumb Navigation --}}
-
 <div class="d-flex justify-content-between align-items-center">
 <x-breadcrumb title="Dashboard" :items="[
     ['name' => 'Dashboard', 'url' => '#', 'active' => false],
@@ -33,7 +35,6 @@
 
 {{--  .blade  --}}
  <x-modal :data="$staffs" visitorsModel='addVisitorModalLabel' modalType="visitor" /> 
-
 
 <div class="d-flex flex-column flex-md-row align-items-center w-100 mb-3">
   <small class="text-muted mb-2 mb-md-0 me-md-3">
@@ -276,9 +277,10 @@
   @endif
 </script>
 <script>
-  document.getElementById('visitorFilter').addEventListener('change', function() {
+    document.getElementById('visitorFilter').addEventListener('change', function() {
         const filterValue = this.value;
         const rows = document.querySelectorAll('#visitorTableBody tr');
+
         rows.forEach(row => {
             if (filterValue === 'all') {
                 row.style.display = ''; // Show all visitors
