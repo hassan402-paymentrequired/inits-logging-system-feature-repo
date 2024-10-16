@@ -12,7 +12,7 @@ window.addEventListener("load", function () {
 
         // Hide loader
         content.style.display = "block"; // Show content
-    }, 2000);
+    }, 1000);
 });
 
 allSideMenu.forEach((item) => {
