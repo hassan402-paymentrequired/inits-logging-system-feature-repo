@@ -28,6 +28,14 @@ li {
     --light-yellow: #fff2c6;
     --orange: #fd7238;
     --light-orange: #ffe0d3;
+    --green: rgba(23, 187, 23, 0.822);
+    --dark-red: rgba(128, 5, 5, 0.836);
+    --checked-out-bg: rgba(218, 6, 6, 0.753);
+    --hover-light-blue: #e0f1ff;
+    --box-shadow: rgba(15, 15, 15, 0.37);
+    --shalow-green: #4bb94b33;
+    --shalow-blue: #1f7fd833;
+    --shalow-dark: rgba(131, 131, 131, 0.527);
 }
 
 html {
@@ -205,15 +213,15 @@ body {
 }
 
 .shalow-green {
-    background-color: #4bb94b33;
+    background-color: var(--shalow-green);
 }
 
 .shalow-blue {
-    background-color: #1f7fd833;
+    background-color: var(--shalow-blue);
 }
 
 .shalow-dark {
-    background-color: rgba(131, 131, 131, 0.527);
+    background-color: var(--shalow-dark);
 }
 
 .chart-container {
@@ -226,7 +234,7 @@ body {
 
 .dashboard-card:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(15, 15, 15, 0.37);
+    box-shadow: 0 10px 20px var(--box-shadow);
 }
 
 .small-font {
@@ -250,11 +258,11 @@ td {
 }
 
 .check-in-bg-badge {
-    background-color: rgba(23, 187, 23, 0.822);
+    background-color: var(--green);
 }
 
 .check-out-bg-badge {
-    background-color: rgba(128, 5, 5, 0.836);
+    background-color: var(--dark-red);
 }
 
 .in-office-status {
@@ -262,7 +270,7 @@ td {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: rgba(252, 252, 6, 0.767); /* Blue background */
+    background-color: var(--green); /* Blue background */
     color: white;
     text-align: center;
     line-height: 20px; /* Vertically centers the text */
@@ -275,7 +283,7 @@ td {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: rgba(218, 6, 6, 0.753); /* Blue background */
+    background-color: var(--checked-out-bg); /* Blue background */
     color: white;
     text-align: center;
     line-height: 20px; /* Vertically centers the text */
@@ -289,4 +297,53 @@ td {
     right: 20px;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+.recent:hover {
+    cursor: pointer;
+    background-color: var(--light-blue);
+}
+
+/* styles.css */
+
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent; /* Transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure loader is on top of everything */
+}
+
+.spinner {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(
+        255,
+        255,
+        255,
+        0.6
+    ); /* Light background for the spinner */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: zoom 0.1s infinite alternate; /* Apply zoom animation */
+}
+
+@keyframes zoom {
+    0% {
+        transform: scale(1); /* Start at original size */
+    }
+    100% {
+        transform: scale(1.5); /* Scale up to 150% */
+    }
+}
+
+.content {
+    display: none; /* Hide content initially */
+    padding: 20px;
 }
