@@ -20,20 +20,20 @@
 
 
 {{-- Breadcrumb Navigation --}}
-@include('components.breadcrumb', [
-  'title' => 'Dashboard',
-  'items' => [
-      ['name' => 'Dashboard', 'url' => '#', 'active' => false],
-      ['name' => 'Home', 'url' => '#', 'active' => true],
-  ],
-  'buttonUrl' => '#', 
-  'buttonIcon' => 'bi bi-filetype-pdf', 
-  'buttonText' => 'Download PDF',
-  'buttonType' => '#',
-  'buttonmodalId' => '#',
-  'buttonModelType'=> '#'
-   
-])
+
+<div class="d-flex justify-content-between align-items-center">
+<x-breadcrumb title="Dashboard" :items="[
+    ['name' => 'Dashboard', 'url' => '#', 'active' => false],
+    ['name' => 'Home', 'url' => '#', 'active' => true],
+]" />
+
+
+<x-modal-button visitorsModel='addVisitorModalLabel' modalType="visitor" icon="bi bi-person-plus" />
+</div>
+
+{{--  .blade  --}}
+ <x-modal :data="$staffs" visitorsModel='addVisitorModalLabel' modalType="visitor" /> 
+
 
 <div class="d-flex flex-column flex-md-row align-items-center w-100 mb-3">
   <small class="text-muted mb-2 mb-md-0 me-md-3">
@@ -57,10 +57,10 @@
     colorClass="shalow-green"
     icon="bi-binoculars"
     iconColor="text-success"
-    toolTipTitle="View all checked-in staff and visitors for today"
+    toolTipTitle="View all staffs and Visitors for the day"
     count="{{ count($checked_in_staff_today) + count($checked_in_visitors_today) }}"
     countsColor="text-success"
-    title="Overall check-in"
+    title="Overall"
     chartIcon="bi-activity"
     chartIconColor="text-success"
 
@@ -73,11 +73,11 @@
     id="card1"
     icon="bi-person-workspace"
     iconColor="text-primary"
-    toolTipTitle="View all checked-in staff for today"
+    toolTipTitle="View all Staffs for the day"
     count="{{ count($checked_in_staff_today) }}"
     countsColor="text-primary"
-    title="Checked-in Staffs"
-    chartIcon="bi-bar-chart"
+    title="Staffs"
+    chartIcon="bi-person-workspace"
     chartIconColor="text-primary"
 
 />
@@ -88,11 +88,11 @@
     colorClass="shalow-dark"
     icon="bi-people-fill"
     iconColor="text-dark"
-    toolTipTitle="View all checked-in visitors for today"
+    toolTipTitle="View all Visitors for the day"
     count="{{ count($checked_in_visitors_today) }}"
     countsColor="text-success"
-    title="Checked-in Visitors"
-    chartIcon="bi-graph-up"
+    title="Visitors"
+    chartIcon="bi-people-fill"
     chartIconColor="text-dark"
  
 />
@@ -119,23 +119,14 @@
             <div class="col-lg-4">
               <div class="card card-raised h-100">
                 <div class="card-header bg-transparent p-4">
-                  <h5 class="card-title fw-normal"><small>Check-in demographics</small></h5>
-                  {{--  <div class="dropdown d-inline-block">
-                    <button class="btn btn-text-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                      Gender
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <li><a class="dropdown-item" href="#">Vistors & staffs</a></li>
-                      <li><a class="dropdown-item" href="#">Staffs</a></li>
-                      <li><a class="dropdown-item" href="#">Visitors</a></li>
-                    </ul>
-                  </div>  --}}
+                  <h5 class="card-title fw-normal"><small>Recently Checked-in Staff</small></h5>
+            
                 </div>
                 <div class="card-body p-4">
-                  <canvas id="dashboardPieChart" width="372" height="372"></canvas>
+              
                 </div>
                 <div class="card-footer p-3 d-flex bg-white">
-                  <a href="" class="report-link ms-auto">OPEN REPORT<i class="bi bi-arrow-right"></i></a>
+                  <a href="" class="report-link ms-auto">VIEW MORE<i class="bi bi-arrow-right"></i></a>
               </div>
               </div>
             </div>
@@ -145,93 +136,72 @@
 
   <div id="total-check-ins" class="bg-light border border-success border-2 py-5">
     <div class="container">
-      <h3 class="text-center mb-5 font-small fw-normal">Checked-in Details for {{ \Carbon\Carbon::parse($selectedDate)->format('F j, Y') }}</h3>
+      <h3 class="text-center mb-5 font-small fw-normal">Activities for {{ \Carbon\Carbon::parse($selectedDate)->format('F j, Y') }}</h3>
       
-      {{-- Staff Check-ins --}}
-      <div class="mb-5">
-        <h4 class="text-success text-muted font-small">Checked-in Staff</h4>
-        @if($checked_in_staff_today->count() > 0)
-     <table id="staff-check-ins" class="table table-bordered table-striped table-hover border-2">
-    <thead class="table-light">
-        <tr>
-            <th><small class="text-muted">Name</small></th>
-            <th><small class="text-muted">Email</small></th>
-            <th><small class="text-muted">Check-in Time</small></th>
-            <th><small class="text-muted">Check-out Time</small></th>
-         </tr>
-    </thead>
-    <tbody>
-        @foreach($checked_in_staff_today as $staff)
-            <tr>
-                <td><small class="">{{ $staff->user->name }}</small></td>
-                <td><small class="">{{ $staff->user->email }}</small></td>
-                <td>
-                    <span class="badge check-in-bg-badge"> <small>{{ \Carbon\Carbon::parse($staff->check_in_time)->format('g:i A') }}</small></span>
-                </td>
-                <td>
-                    <span class="badge check-out-bg-badge"> <small>{{ \Carbon\Carbon::parse($staff->check_out_time)->format('g:i A') }}</small></span>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-    </table>
 
-        @else
-          <p>No staff have checked in today.</p>
-        @endif
-      </div>
-  
-   
-      <div>
-        <h4 class="text-muted">Checked-in Visitors</h4>
-        @if(count($checked_in_visitors_today) > 0)
+      <div class="d-flex align-items-center mb-3">
+        <h4 class="text-secondary font-small">Visitors</h4>
+    
+        <!-- Dropdown Filter -->
+       
+            <select id="visitorFilter" class="form-select w-25 ms-auto border border-success" aria-label="Filter visitors">
+                <option value="all">All Visitors</option>
+                <option value="in-office">Still in Office</option>
+                <option value="checked-out">Check Out</option>
+            </select>
+        </div>
+    
         <table id="visitors-check-ins" class="table table-bordered table-striped table-hover ">
-            <thead>
-                <tr>
-                    <th><small class="text-muted">Name</small></th>
-                    <th><small class="text-muted">Purpose of visit</small></th>
-                    <th><small class="text-muted">Check-in Time</small></th>
-                    <th><small class="text-muted">Check-out Time</small></th> 
-                    <th><small class="text-muted">Action</small></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($checked_in_visitors_today as $visitor)
+            @if(count($checked_in_visitors_today) > 0)
+                <thead>
                     <tr>
-                        <td><small>{{ ucwords(strtolower($visitor->visitor->name)) }}</small></td>
-                        <td><small>{{ ucwords(strtolower($visitor->visitor->purpose_of_visit)) }}</small></td>
-                        <td>
-                            <span class="badge check-in-bg-badge"> <small>{{ \Carbon\Carbon::parse($visitor->check_in_time)->format('g:i A') }}</small></span>
-                        </td>
-                        <td>
-                            @if($visitor->check_out_time)
-                                <span class="badge check-out-bg-badge"> <small>{{ \Carbon\Carbon::parse($visitor->check_out_time)->format('g:i A') }}</small></span>
-                            @else
-                                <span class="badge text-warning">Still in Office</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if($visitor->check_out_time)
-                                <!-- If checked out, disable the button -->
-                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>Checked Out</button>
-                            @else
-                                <!-- Form for checking out -->
-                                <form method="POST" action="{{ route('check-visitor-out', $visitor->id) }}" class="w-0">
-                                    @method('PATCH')
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Checkout</button>
-                                </form>
-                            @endif
-                        </td>  
+                        <th><small class="text-muted">Name</small></th>
+                        <th><small class="text-muted">Purpose of visit</small></th>
+                        <th><small class="text-muted">Contact address</small></th>
+                        <th><small class="text-muted">Status</small></th>
+                        <th><small class="text-muted">Action</small></th>
                     </tr>
-                @endforeach
-            </tbody>
+                </thead>
+                <tbody id="visitorTableBody">
+                    @foreach($checked_in_visitors_today as $visitor)
+                        @php
+                            $checkInTime = \Carbon\Carbon::parse($visitor->created_at)->format('g:i A');
+                            $checkOutTime = $visitor->check_out_time ? \Carbon\Carbon::parse($visitor->check_out_time)->format('g:i A') : 'Still in Office';
+                            $tooltip = "Check-in: $checkInTime | Check-out: $checkOutTime";
+                        @endphp
+    
+                        <tr data-toggle="tooltip" data-placement="top" title="{{ $tooltip }}" class="{{ $visitor->check_out_time ? 'checked-out' : 'still-in-office' }}">
+                            <td><small>{{ ucwords(strtolower($visitor->visitor->name)) }}</small></td>
+                            <td><small>{{ ucwords(strtolower($visitor->visitor->purpose_of_visit)) }}</small></td>
+                            <td>
+                                <small class="text-muted">{{ $visitor->visitor->phone_number }}</small>
+                            </td>
+                            <td>
+                                <small><span class="{{ $visitor->check_out_time ? 'checked-out-status' : 'in-office-status' }}"></span>
+                                    {{ $visitor->check_out_time ? 'Checked out' : 'On site' }}</small>
+                            </td>
+                            <td>
+                                @if($visitor->check_out_time)
+                                    <button type="button" class="btn btn-sm btn-outline-danger px-4" disabled><i class="bi bi-exclamation-diamond"></i></button>
+                                @else
+                                    <form method="POST" action="{{ route('check-visitor-out', $visitor->visitor->id) }}" class="w-0">
+                                        @method('PATCH')
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Checkout</button>
+                                    </form>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            @else
+                <p>No visitors have checked in today.</p>
+            @endif
         </table>
-        @else
-            <p>No visitors have checked in today.</p>
-        @endif
     </div>
     </div>
+        {{-- Include Scroll Up Button Component --}}
+        <x-scroll-up-button />
 </div>
 
 {{-- Chart.js Script for Heat Chart --}}
@@ -298,21 +268,30 @@
       icon: 'success',
       title: 'Success!',
       text: '{{ session('success') }}',
-      position: 'top-end',
+      position: 'center',
       timer: 3000,
       timerProgressBar: true,
       showConfirmButton: false
   });
   @endif
 </script>
-
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-      var ctx = document.getElementById('dashboardPieChart').getContext('2d');
- 
-  });
-
-
+  document.getElementById('visitorFilter').addEventListener('change', function() {
+        const filterValue = this.value;
+        const rows = document.querySelectorAll('#visitorTableBody tr');
+        rows.forEach(row => {
+            if (filterValue === 'all') {
+                row.style.display = ''; // Show all visitors
+            } else if (filterValue === 'in-office') {
+                row.style.display = row.classList.contains('still-in-office') ? '' : 'none'; // Show only still in office visitors
+            } else if (filterValue === 'checked-out') {
+                row.style.display = row.classList.contains('checked-out') ? '' : 'none'; // Show only checked out visitors
+            }
+        });
+    });
 </script>
+
+
+
 @endsection
 

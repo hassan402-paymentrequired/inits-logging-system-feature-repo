@@ -2,25 +2,20 @@
 
 @section('title', 'Staffs')
 
-
-
 @section('main-content')
-@include('components.breadcrumb', [
-  'title' => 'Staffs',
-  'items' => [
-      ['name' => 'Staffs', 'url' => '#', 'active' => false],
-      ['name' => 'Overview', 'url' => '#', 'active' => true],
-  ],
-  'buttonUrl' => '#', 
-  'buttonIcon' => 'bi bi-person-plus',
-  'buttonText' => 'Add New Staff' ,
-  'buttonType' => '#',
-  'buttonmodalId' => '#',
-  'buttonModelType'=> '#'
-])
-{{--  @include('components.Filters')  --}}
-<x-modal visitorsModel='addStaffModalLabel' modalType="staff" />
-{{-- Include the Data Table Component for Visitors --}}
-<x-data-table :data="$staffs" type="staffs" />
-<script>
+    <!-- Breadcrumb Component -->
+    <div class="d-flex justify-content-between align-items-center">
+    <x-breadcrumb title="Staffs" :items="[
+        ['name' => 'Staffs', 'url' => '#', 'active' => false],
+        ['name' => 'Overview', 'url' => '#', 'active' => true],
+    ]" />
+
+    <!-- Modal Button Component -->
+    <x-modal-button visitorsModel="addStaffModalLabel" modalType="staff" icon="bi bi-person-plus" />
+    </div>
+    <!-- Include the Modal for Adding New Staff -->
+    <x-modal visitorsModel="addStaffModalLabel" modalType="staff" />
+
+    {{-- Include the Data Table Component for Staffs --}}
+    <x-data-table :data="$staffs" type="staffs" />
 @endsection
