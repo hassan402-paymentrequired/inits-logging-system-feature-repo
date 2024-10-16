@@ -151,25 +151,25 @@ class StaffController extends Controller
      * @return User 
      */
 
-     public function getStaffCheckInHistory()
-     {
-         $staffHistory = auth()->user()->staffcheckins()->get();
+    //  public function getStaffCheckInHistory()
+    //  {
+    //      $staffHistory = auth()->user()->staffcheckins()->get();
 
-         return view('info', ['history' => $staffHistory]);
+    //      return view('info', ['history' => $staffHistory]);
 
-     }
+    //  }
 
-      public function getStaffCurrentVisitors()
-      {
-        $staffCurrentVisitors = auth()->user()->visitors()->with('visitorhistories')->whereDate('check_in_time', Carbon::now())->get();
+    //   public function getStaffCurrentVisitors()
+    //   {
+    //     $staffCurrentVisitors = auth()->user()->visitors()->with('visitorhistories')->whereDate('check_in_time', Carbon::now())->get();
 
-        return view('info', ['current_visitors' => $staffCurrentVisitors]);
-      }
+    //     return view('info', ['current_visitors' => $staffCurrentVisitors]);
+    //   }
 
-      public function getStaffVisitorsHistory()
-      {
-        $staffVisitorsHistory = auth()->user()->visitors()->with('visitorhistories')->get();
+    //   public function getStaffVisitorsHistory()
+    //   {
+    //     $staffVisitorsHistory = auth()->user()->visitors()->with('visitorhistories')->get();
 
-        //TODO: return redirect
-      }
+    //     //TODO: return redirect
+    //   }
 }

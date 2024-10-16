@@ -10,7 +10,7 @@
 </head>
 
 
-<body>
+
     <div class="container-fluid d-flex min-vh-100 bg-light align-items-center justify-content-center">
         <!-- Form section -->
         <div class="row w-100">
@@ -73,4 +73,17 @@
         </div>
     </div>
 </body>
+
+<script>
+    window.addEventListener("load", function () {
+        const loader = document.getElementById("loader");
+        const content = document.querySelector(".content");
+
+        setTimeout(() => {
+            // Hide loader
+            loader.style.display = "none"; // Hide loader
+            content.style.display = "block"; // Show content
+        }, 3000); 
+    });
+</script>
 </html>

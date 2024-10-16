@@ -48,11 +48,11 @@ Route::middleware(['web'])->prefix('v1')->group(function(){
     Route::get('/check-in-history', [StaffController::class, 'getStaffCheckInHistory'])->name('staff.history');
     Route::get('/current', [StaffController::class, 'getStaffCurrentVisitors'])->name('staff.current.visitors.for.the.day');
     Route::get('/visitors-history', [StaffController::class, 'getStaffVisitorsHistory'])->name('staff.visitors.history');
-    Route::get('/info', function () {
-        $name = env("APP_URL")."/user/check-in";
-            $qr =  QrCode::format('png')->size(300)->generate($name);
-            return view('info')->with('code' , $qr);
-    });
+    // Route::get('/info', function () {
+    //     $name = env("APP_URL")."/user/check-in";
+    //         $qr =  QrCode::format('png')->size(300)->generate($name);
+    //         return view('info')->with('code' , $qr);
+    // });
 });
 
 

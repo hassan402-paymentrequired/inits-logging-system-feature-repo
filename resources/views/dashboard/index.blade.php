@@ -23,17 +23,16 @@
 
 
 {{-- Breadcrumb Navigation --}}
-    <div class="d-flex justify-content-between align-items-center">
+<div class="d-flex justify-content-between align-items-center">
 <x-breadcrumb title="Dashboard" :items="[
     ['name' => 'Dashboard', 'url' => '#', 'active' => false],
     ['name' => 'Home', 'url' => '#', 'active' => true],
 ]" />
 
-
 <x-modal-button visitorsModel='addVisitorModalLabel' modalType="visitor" icon="bi bi-person-plus" />
 </div>
 
-{{--  .blade  --}}
+
  <x-modal :data="$staffs" visitorsModel='addVisitorModalLabel' modalType="visitor" /> 
 
 <div class="d-flex flex-column flex-md-row align-items-center w-100 mb-3">
@@ -116,21 +115,105 @@
           </div>
       </div>
 
-            {{--  (Pie Chart) --}}
+        
             <div class="col-lg-4">
-              <div class="card card-raised h-100">
-                <div class="card-header bg-transparent p-4">
-                  <h5 class="card-title fw-normal"><small>Recently Checked-in Staff</small></h5>
-            
+                {{--  <div class="card card-raised h-100">
+                    <div class="card-header bg-transparent p-4">
+                        <h6 class="card-title fw-normal"><small></small></h6>
+                        <select id="recent&oldestFilter" class="form-select  ms-auto border border-success" aria-label="Filter visitors">
+                            <option value="Recent">Recent</option>
+                            <option value="Oldest">Oldest</option>
+                        </select>
+                    </div>
+                    <div id="recent&oldestdata" class="card-body p-4">
+                        @if ($recent_checked_in_staff->isEmpty())
+                            <p>No staff have checked in recently.</p>
+                        @else
+                            <div class="container p-0">
+                                <div class="row mb-2 custom-border-bottom p-0">
+                              
+                                <div class="col-4 fw-bold  d-flex align-items-center justify-content-center">
+                                    <i class="bi-person-workspace text-primary fs-4"></i>
+                                </div>
+                                    <div class="col-4 fw-bold d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-geo-fill text-danger fs-4"></i>
+                                    </div>
+                                    <div class="col-4 fw-bold d-flex align-items-center justify-content-center"><i class="bi bi-clock-history text-success fs-4"></i></div>
+                                </div>
+                                @foreach ($recent_checked_in_staff as $staffCheckIn)
+                                    <div class="row mb-2 recent">
+                                        <div class="col-4"><small>{{ $staffCheckIn->user->name }}</small></div>
+                                        <div class="col-4 text-muted"><span class="in-office-status"></span> <small>On site</small> </div> <!-- You can replace this with dynamic content if needed -->
+                                        <div class="col-4 d-flex align-items-center justify-content-center text-muted"><small>{{ \Carbon\Carbon::parse($staffCheckIn->check_in_time)->format('g:i A') }}</small></div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                    <div class="card-footer p-3 d-flex bg-white">
+                        <a href="" class="report-link ms-auto">VIEW MORE<i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>  --}}
+                <div class="card card-raised h-100">
+                    <div class="card-header bg-transparent p-4">
+                        <h6 class="card-title fw-normal"><small>Staff Check-ins</small></h6>
+                        <select id="recent&oldestFilter" class="form-select ms-auto border border-success" aria-label="Filter visitors">
+                            <option value="Recent">Recent</option>
+                            <option value="Oldest">Oldest</option>
+                        </select>
+                    </div>
+                    <div id="recent&oldestdata" class="card-body p-4">
+                        <!-- Display the data based on the selected filter -->
+                        @if ($recent_checked_in_staff->isEmpty() && $oldest_checked_in_staff->isEmpty())
+                            <p>No staff have checked in recently.</p>
+                        @else
+                            <div class="container p-0">
+                                <div class="row mb-2 custom-border-bottom p-0">
+                                    <div class="col-4 fw-bold d-flex align-items-center justify-content-center">
+                                        <i class="bi-person-workspace text-primary fs-4"></i>
+                                    </div>
+                                    <div class="col-4 fw-bold d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-geo-fill text-danger fs-4"></i>
+                                    </div>
+                                    <div class="col-4 fw-bold d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-clock-history text-success fs-4"></i>
+                                    </div>
+                                </div>
+                                
+                                <!-- Recent Check-ins -->
+                                <div id="recent-checkins" class="staff-checkins">
+                                    @foreach ($recent_checked_in_staff as $staffCheckIn)
+                                        <div class="row mb-2 recent">
+                                            <div class="col-4"><small>{{ $staffCheckIn->user->name }}</small></div>
+                                            <div class="col-4 text-muted"><span class="in-office-status"></span> <small>On site</small></div>
+                                            <div class="col-4 d-flex align-items-center justify-content-center text-muted">
+                                                <small>{{ \Carbon\Carbon::parse($staffCheckIn->check_in_time)->format('g:i A') }}</small>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                
+                                <!-- Oldest Check-ins -->
+                                <div id="oldest-checkins" class="staff-checkins" style="display: none;">
+                                    @foreach ($oldest_checked_in_staff as $staffCheckIn)
+                                        <div class="row mb-2 oldest">
+                                            <div class="col-4"><small>{{ $staffCheckIn->user->name }}</small></div>
+                                            <div class="col-4 text-muted"><span class="in-office-status"></span> <small>On site</small></div>
+                                            <div class="col-4 d-flex align-items-center justify-content-center text-muted">
+                                                <small>{{ \Carbon\Carbon::parse($staffCheckIn->check_in_time)->format('g:i A') }}</small>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="card-footer p-3 d-flex bg-white">
+                        <a href="" class="report-link ms-auto">VIEW MORE<i class="bi bi-arrow-right"></i></a>
+                    </div>
                 </div>
-                <div class="card-body p-4">
-              
-                </div>
-                <div class="card-footer p-3 d-flex bg-white">
-                  <a href="" class="report-link ms-auto">VIEW MORE<i class="bi bi-arrow-right"></i></a>
-              </div>
-              </div>
             </div>
+            
         </div>
       </div>
   </div>
@@ -147,8 +230,8 @@
        
             <select id="visitorFilter" class="form-select w-25 ms-auto border border-success" aria-label="Filter visitors">
                 <option value="all">All Visitors</option>
-                <option value="in-office">On site</option>
-                <option value="checked-out">Check Out</option>
+                <option value="in-office">Still on site</option>
+                <option value="checked-out">Checked-Out</option>
             </select>
         </div>
     
@@ -171,7 +254,7 @@
                             $tooltip = "Check-in: $checkInTime | Check-out: $checkOutTime";
                         @endphp
     
-                        <tr data-toggle="tooltip" data-placement="top" title="{{ $tooltip }}" class="{{ $visitor->check_out_time ? 'checked-out' : 'On site' }}">
+                        <tr data-toggle="tooltip" data-placement="top" title="{{ $tooltip }}" class="{{ $visitor->check_out_time ? 'checked-out' : 'still-in-office' }}">
                             <td><small>{{ ucwords(strtolower($visitor->visitor->name)) }}</small></td>
                             <td><small>{{ ucwords(strtolower($visitor->visitor->purpose_of_visit)) }}</small></td>
                             <td>
@@ -183,7 +266,7 @@
                             </td>
                             <td>
                                 @if($visitor->check_out_time)
-                                    <button type="button" class="btn btn-sm btn-outline-danger px-4" disabled><i class="bi bi-exclamation-diamond"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" disabled><i class="bi bi-exclamation-diamond"></i></button>
                                 @else
                                     <form method="POST" action="{{ route('check-visitor-out', $visitor->visitor->id) }}" class="w-0">
                                         @method('PATCH')
@@ -207,62 +290,65 @@
 
 {{-- Chart.js Script for Heat Chart --}}
 <script>
-  const ctx = document.getElementById('busiestWeekChart').getContext('2d');
-  const busiestWeekChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-          labels: {!! json_encode($weekDays) !!}, // Days of the week
-          datasets: [{
-              label: 'Check-Ins',
-              data: {!! json_encode($checkInCounts) !!}, // Daily check-in counts
-              backgroundColor: function(context) {
-                const value = context.dataset.data[context.dataIndex];
-                let color;
-                if (value < 20) {
-                    color = 'rgba(255, 70, 70, 0.7)'; // Darker light red for low count
-                } else if (value < 30) {
-                    color = 'rgba(255, 140, 0, 0.7)'; // Darker orange for medium count
-                } else {
-                    color = 'rgba(0, 150, 150, 0.7)'; // Darker teal for high count
-                }
-                return color;
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('busiestWeekChart').getContext('2d');
+        const busiestWeekChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($weekDays) !!}, // Days of the week from controller
+                datasets: [{
+                    label: 'Check-Ins',
+                    data: {!! json_encode($checkInCounts) !!}, // Daily check-in counts from controller
+                    backgroundColor: function(context) {
+                        const value = context.dataset.data[context.dataIndex];
+                        let color;
+                        if (value < 20) {
+                            color = 'rgba(255, 70, 70, 0.7)'; // Darker light red for low count
+                        } else if (value < 30) {
+                            color = 'rgba(255, 140, 0, 0.7)'; // Darker orange for medium count
+                        } else {
+                            color = 'rgba(0, 150, 150, 0.7)'; // Darker teal for high count
+                        }
+                        return color;
+                    },
+                    borderColor: function(context) {
+                        const value = context.dataset.data[context.dataIndex];
+                        let borderColor;
+                        if (value < 20) {
+                            borderColor = 'rgba(255, 70, 70, 1)'; // Darker red for low count
+                        } else if (value < 30) {
+                            borderColor = 'rgba(255, 140, 0, 1)'; // Darker orange for medium count
+                        } else {
+                            borderColor = 'rgba(0, 150, 150, 1)'; // Darker teal for high count
+                        }
+                        return borderColor;
+                    },
+                    borderWidth: 1
+                }]
             },
-            borderColor: function(context) {
-                const value = context.dataset.data[context.dataIndex];
-                let borderColor;
-                if (value < 20) {
-                    borderColor = 'rgba(255, 70, 70, 1)'; // Darker red for low count
-                } else if (value < 30) {
-                    borderColor = 'rgba(255, 140, 0, 1)'; // Darker orange for medium count
-                } else {
-                    borderColor = 'rgba(0, 150, 150, 1)'; // Darker teal for high count
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Check-Ins'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return ` ${tooltipItem.label}: ${tooltipItem.raw} check-ins`;
+                            }
+                        }
+                    }
                 }
-                return borderColor;
-            },
-              borderWidth: 1
-          }]
-      },
-      options: {
-          scales: {
-              y: {
-                  beginAtZero: true,
-                  title: {
-                      display: true,
-                      text: 'Number of Check-Ins'
-                  }
-              }
-          },
-          plugins: {
-              tooltip: {
-                  callbacks: {
-                      label: function(tooltipItem) {
-                          return ` ${tooltipItem.label}: ${tooltipItem.raw} check-ins`;
-                      }
-                  }
-              }
-          }
-      }
-  });
+            }
+        });
+    });
+
 
     @if (session('success'))
   Swal.fire({
@@ -292,6 +378,23 @@
         });
     });
 </script>
+
+<script>
+    document.getElementById('recent&oldestFilter').addEventListener('change', function() {
+        const filterValue = this.value;
+        const recentCheckins = document.getElementById('recent-checkins');
+        const oldestCheckins = document.getElementById('oldest-checkins');
+
+        if (filterValue === 'Recent') {
+            recentCheckins.style.display = 'block'; // Show recent check-ins
+            oldestCheckins.style.display = 'none';   // Hide oldest check-ins
+        } else if (filterValue === 'Oldest') {
+            recentCheckins.style.display = 'none';   // Hide recent check-ins
+            oldestCheckins.style.display = 'block';  // Show oldest check-ins
+        }
+    });
+</script>
+
 
 
 
