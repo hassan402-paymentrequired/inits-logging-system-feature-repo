@@ -1,3 +1,3 @@
-<div>
+<x-staff-layout-layout>
     hello world
-</div>
+</x-staff-layout-layout>
