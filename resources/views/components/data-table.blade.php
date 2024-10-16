@@ -1,7 +1,7 @@
 
 <div class="card p-0 border border-success border-2">
     <div class="card-header bg-white p-4">
-        
+       
         @if (session('error') || session('success'))
         <p class="alert alert-success">{{ session('error') }}</p>
         <p class="alert alert-success" role="alert">{{ session('success') }}</p>

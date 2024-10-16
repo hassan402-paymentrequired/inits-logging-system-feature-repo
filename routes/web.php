@@ -28,8 +28,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/google/auth/callback', [OauthController::class, 'handleCallback']);
 });
 
-Route::middleware(['web', 'admin'])->prefix('v1')->group(function () {
-    Route::get("/dmin/dashboard", [AdminController::class, 'index'])->name('dashboard');
+Route::middleware(['auth:web', 'admin'])->prefix('v1')->group(function () {
+    Route::get("/admin/dashboard", [AdminController::class, 'index'])->name('dashboard');
     Route::get('/staffs',  [AdminController::class, 'getAllStaffsHistory'])->name('staffs');
     Route::post('/visitors/create', [VisitorsController::class, 'store'])->name('add-visitors');
     Route::get('/admin/visitors/update/{visitor}', [VisitorsController::class, 'edit'])->name('update-visitor-form');

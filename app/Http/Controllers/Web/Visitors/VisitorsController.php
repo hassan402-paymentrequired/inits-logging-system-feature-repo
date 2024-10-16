@@ -157,6 +157,6 @@ class VisitorsController extends Controller
             return redirect()->back()->withErrors('No check-in record found for this visitor today.');
         }
     
-        return redirect("/v1/dashboard")->with('success', 'Visitor checked out successfully.');
+        return redirect("/v1/admin/dashboard")->with('success', 'Visitor checked out successfully.');
     }
 }
