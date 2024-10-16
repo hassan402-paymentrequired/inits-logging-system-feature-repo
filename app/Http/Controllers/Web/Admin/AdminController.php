@@ -56,6 +56,9 @@ class AdminController extends Controller
             ->with('user')
             ->get();
 
+            
+
+            // get staffs
             $staffs = User::with('role')->get(); 
 
         // Count the number of staff checked in for the selected date
@@ -71,7 +74,6 @@ class AdminController extends Controller
             'checked_in_visitors_yesterday' => $checked_in_visitors_yesterday,  
             'staffs' =>  $staffs,
             'selectedDate' => $selectedDate, 
-            // 'recent' => $recent
 
         ]);
     }
