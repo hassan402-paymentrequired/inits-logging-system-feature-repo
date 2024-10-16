@@ -59,7 +59,6 @@ class AdminController extends Controller
         // Count the number of staff checked in for the selected date
         $number_of_checked_in_staff_today = $checked_in_staff_today->count();
 
-        $recent = StaffCheckIns::with('user')->whereDate('check_in_time', '=', Carbon::today()->toDateString())->limit(5)->latest();
 
         return view('dashboard.index', [
             'checked_in_visitors_today' => $checked_in_visitors_today,
@@ -70,7 +69,7 @@ class AdminController extends Controller
             'checked_in_staff_yesterday' => $checked_in_staff_yesterday,
             'checked_in_visitors_yesterday' => $checked_in_visitors_yesterday,  
             'selectedDate' => $selectedDate, 
-            'recent' => $recent
+
         ]);
     }
 
