@@ -79,7 +79,10 @@ class AdminController extends Controller
             'male' =>  $male_visitors->count(),
             'female' => $female_visitors->count()
         ];
-
+          
+        // get all staffs
+        $staffs = User::with('role')->get(); 
+//    dd($staffs);
 
         return view('dashboard.index', [
             'checked_in_visitors_today' => $checked_in_visitors_today,
@@ -92,12 +95,16 @@ class AdminController extends Controller
             'selectedDate' => $selectedDate,
             'staff_gender_count' => $staff_gender_count,
             'visitor_gender_count' => $visitor_gender_count,
+            'staffs' =>  $staffs
         ]);
     }
 
    public function notifications() {
         return view('notifications.index');
     }
+
+
+
 
     public function function () {
         return view('analytics.index');
@@ -134,7 +141,6 @@ class AdminController extends Controller
 
         return view('visitors.index', [
             'visitors_for_the_month' => $visitors_for_the_month,
-            'staffs' => $staffs,
             'search' => $search, // Pass the search query to the view
             'perPage' => $perPage, // Pass the per page value to the view
         ]); 
