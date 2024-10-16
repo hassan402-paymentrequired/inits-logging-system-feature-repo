@@ -26,7 +26,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/google/auth/callback', [OauthController::class, 'handleCallback']);
 });
 
-Route::middleware(['auth:web', 'admin'])->prefix('v1')->group(function () {
+Route::middleware(['web'])->prefix('v1')->group(function () {
     Route::get("/dashboard", [AdminController::class, 'index'])->name('dashboard');
     Route::post('/visitors/create', [VisitorsController::class, 'store'])->name('add-visitors');
     Route::get('/admin/visitors/update/{visitor}', [VisitorsController::class, 'edit'])->name('update-visitor-form');

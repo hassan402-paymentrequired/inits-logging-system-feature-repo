@@ -22,7 +22,7 @@ Route::group(['prefix' => 'v1'], function () {
      Route::post('/login', [AuthenticationsController::class, "staffLogin"]);
 });
 
-Route::middleware(['auth:api'])->prefix('v1')->group(function (){
+Route::middleware(['api'])->prefix('v1')->group(function (){
      Route::get('/visitors', [StaffsController::class, 'getStaffVisitors'])->name('staff-visitors');
      Route::get('/history', [StaffsController::class, 'getStaffCheckInHistory'])->name('staff-check-in-history');
      Route::get('/current-visitor', [StaffsController::class, 'getTotalCurrentGuest'])->name('staff-current-visitors');
