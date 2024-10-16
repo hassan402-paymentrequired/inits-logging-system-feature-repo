@@ -2,10 +2,10 @@
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
       <div class="card shadow-lg border-0 rounded-3">
-        <div class="card-header text-center py-2 border border-primary border-2">
+        <div class="card-header text-center py-4">
           <h3 class="mb-0">Edit {{ ucfirst($type) }}</h3>
         </div>
-        <div class="card-body px-5 py-4 border border-primary border-2">
+        <div class="card-body px-5 py-4">
           <form id="editForm" action="{{ route($type === 'visitor' ? 'update-visitor-data' : 'update-staff-data', $person->id) }}" method="POST">
             @csrf
             @method('PATCH')

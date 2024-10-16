@@ -256,37 +256,3 @@ td {
 .check-out-bg-badge {
     background-color: rgba(128, 5, 5, 0.836);
 }
-
-.in-office-status {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: rgba(252, 252, 6, 0.767); /* Blue background */
-    color: white;
-    text-align: center;
-    line-height: 20px; /* Vertically centers the text */
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.checked-out-status {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: rgba(218, 6, 6, 0.753); /* Blue background */
-    color: white;
-    text-align: center;
-    line-height: 20px; /* Vertically centers the text */
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.btn-scroll-up {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}

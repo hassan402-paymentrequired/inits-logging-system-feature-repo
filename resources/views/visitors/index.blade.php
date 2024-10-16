@@ -5,13 +5,24 @@
 
 
 @section('main-content')
-<x-breadcrumb title="Visitors" :items="[
-    ['name' => 'Visitors', 'url' => '#', 'active' => false],
-    ['name' => 'Overview', 'url' => '#', 'active' => true],
-]" />
+@include('components.breadcrumb', [
+    'title' => 'Visitors',
+    'items' => [
+        ['name' => 'Visitors', 'url' => '#', 'active' => false],
+        ['name' => 'Overview', 'url' => '#', 'active' => true],
+    ],
+    'buttonUrl' => '#', // Replace with actual URL for adding a new visitor
+    'buttonIcon' => 'bi bi-person-plus', // Icon for adding a new visitor
+    'buttonText' => 'Add New Visitor',
+    'buttonType' => 'modal',
+    'buttonmodalId' => '#addVisitorModal',
+    'buttonModelType'=> 'visitor'
+
+])
 
 
-
+{{--  .blade  --}}
+<x-modal :data="$staffs" visitorsModel='addVisitorModalLabel' modalType="visitor" />
 
 
 <x-data-table :data="$visitors_for_the_month" type="visitors" />
