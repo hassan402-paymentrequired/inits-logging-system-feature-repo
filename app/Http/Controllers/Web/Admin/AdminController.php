@@ -85,7 +85,6 @@ class AdminController extends Controller
         })
         ->paginate($request->get('per_page', 10));
         
-        // Default to 10 entries per page
     return view('staffs.index', ['staffs' => $staffs]);
     }
 
