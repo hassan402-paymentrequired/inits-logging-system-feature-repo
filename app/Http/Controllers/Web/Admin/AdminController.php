@@ -109,7 +109,6 @@ class AdminController extends Controller
             ->paginate($perPage);
 
             
-// dd($staffs);
 
         return view('visitors.index', [
             'visitors_for_the_month' => $visitors_for_the_month,
