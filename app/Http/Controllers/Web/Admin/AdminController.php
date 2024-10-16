@@ -58,7 +58,7 @@ class AdminController extends Controller
 
         // Count the number of staff checked in for the selected date
         $number_of_checked_in_staff_today = $checked_in_staff_today->count();
-
+        $staffs = User::with('role')->get();
         $recent = StaffCheckIns::with('user')->whereDate('check_in_time', '=', Carbon::today()->toDateString())->limit(5)->latest();
 
         return view('dashboard.index', [
@@ -70,12 +70,21 @@ class AdminController extends Controller
             'checked_in_staff_yesterday' => $checked_in_staff_yesterday,
             'checked_in_visitors_yesterday' => $checked_in_visitors_yesterday,  
             'selectedDate' => $selectedDate, 
+            'staffs' => $staffs,
             'recent' => $recent
         ]);
     }
 
-   public function notifications() {
-        return view('notifications.index');
+    public function getAllStaffsHistory(Request $request)
+    {
+        $staffs = User::with('role')
+        ->when($request->search, function ($query) use ($request) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        })
+        ->paginate($request->get('per_page', 10));
+        
+        // Default to 10 entries per page
+    return view('staffs.index', ['staffs' => $staffs]);
     }
 
     function geofence() {
@@ -84,7 +93,7 @@ class AdminController extends Controller
 
     public function storeGeofence(Request $request)
     {
-        
+        dd($request->all());
     }
 
     public function getAllTheVisitorForTheMonth(Request $request)
