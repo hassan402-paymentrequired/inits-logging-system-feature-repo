@@ -47,6 +47,8 @@ class StaffController extends Controller
         return view('auth.staff-login', ['staffs' => $staffs]);
     }
 
+    
+
 
     public function login(Request $request)
     {
@@ -67,6 +69,14 @@ class StaffController extends Controller
             return redirect()->back()->with("error", "Invalid email or password");
         }
         return redirect()->intended(route('staff.dashboard'))->with("success", "Logged in successfully");
+     }
+
+
+     public function logout(Request $request)
+     {
+        $this->authenticationService->webLogout($request);
+        return redirect('/v1');
+
      }
 
     /**

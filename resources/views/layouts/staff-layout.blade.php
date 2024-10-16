@@ -14,7 +14,7 @@
     <title>@yield('title')</title>
 </head>
 <body>
-    <div class="d-flex">
+    <div class="d-flex justify-content-center ">
        <!-- Sidebar -->
        <section id="sidebar" class="d-flex flex-column align-items-start">
         <a href="#" class="brand p-2 m-4">
@@ -27,7 +27,7 @@
          </ul>
         <ul class="side-menu">
           <li>
-            <form id="logoutForm" action="" method="post" style="display: inline;">
+            <form id="logoutForm" action="/v1/staff-logout" method="post" style="display: inline;">
               @csrf
               <button id="submitButton" type="button" class="logout btn">
                 <i class="bi bi-box-arrow-right text-danger m-2"></i>
@@ -38,10 +38,26 @@
         </ul>
       </section>
       
-        <section id="content" >
-            <!-- Content will be inserted here -->
-            @yield('content')
+      <section id="content" >
+            @yield('staff-content')
         </section>
     </div>
 </body>
 </html>
+
+<script>
+  document.getElementById('submitButton').addEventListener('click', function() {
+    Swal.fire({
+      title: 'Are you sure?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, logout!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('logoutForm').submit();
+      }
+    });
+  });
+</script>
