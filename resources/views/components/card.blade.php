@@ -29,7 +29,7 @@
                     <i class="bi {{ $chartIcon }} {{ $chartIconColor }} fs-5 mt-1 fw-normal"></i>
                 </div>
                 <small class="small-font ms-1 text-secondary">{{ $title }}</small>
-                <small class="small-font ms-1 text-secondary fw-small">for today</small>
+                <small class="small-font ms-1 text-secondary fw-small">for the day</small>
             </div>
         
          <i class="bi bi-binoculars-fill {{ $iconColor }} ms-auto mb-5"></i>
