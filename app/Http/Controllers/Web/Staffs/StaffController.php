@@ -71,7 +71,10 @@ class StaffController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::with('role')->find($id)->first();
+
+        return view('staffs.show');
+
     }
 
      /**
@@ -122,8 +125,23 @@ class StaffController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(string $id)
     {
-        // $user->role()->is_active = true;
+        $user = User::find($id)->first();
+        $user->update([
+            'is_active' => 0
+        ]);
+        return redirect()->back()->with('success', 'you deactived successfully');
     }
+
+    /**
+     * View all staff history
+     * @param User $id
+     * @return User 
+     */
+
+     public function getStaffCheckInHistory(string $id)
+     {
+
+     }
 }

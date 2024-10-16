@@ -16,6 +16,6 @@ class Visitor extends Model
     }
 
     public function visitorhistories():HasMany{
-        return $this->hasMany(VisitorHistories::class);
+        return $this->hasMany(VisitorHistories::class, 'visitor_id' );
     }
 }

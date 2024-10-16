@@ -38,7 +38,7 @@ class AuthenticationsController extends Controller
 
         $remember_me = $request->rememberMe ? true : false;
 
-         $response =  $this->authenticationService->login($request->email, $request->password, $remember_me );
+         $response =  $this->authenticationService->webLogin($request->email, $request->password, $remember_me );
 
         if($response['status'] == 400) {
             return redirect()->back()->with("error", "Invalid email or password");
@@ -48,8 +48,8 @@ class AuthenticationsController extends Controller
 
     public function logout(Request $request)
     {
-       $this->authenticationService->logout($request);
-        return redirect('v1/login');
+       $this->authenticationService->webLogout($request);
+        return redirect('/v1/login');
     }
 
 

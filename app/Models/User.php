@@ -29,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function visitors():HasMany{
-        return $this->hasMany(Visitor::class, "id");
+        return $this->hasMany(Visitor::class, "staff_id");
     }
 
     public function staffcheckins():HasMany{

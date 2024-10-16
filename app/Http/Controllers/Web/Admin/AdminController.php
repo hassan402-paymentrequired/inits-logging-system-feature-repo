@@ -8,6 +8,7 @@ use App\Models\StaffCheckIns;
 use App\Models\User;
 use App\Models\Visitor;
 use App\Models\VisitorHistories;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 
@@ -58,32 +59,6 @@ class AdminController extends Controller
         // Count the number of staff checked in for the selected date
         $number_of_checked_in_staff_today = $checked_in_staff_today->count();
 
-        // Gender count for staff for the month
-        $staff_gender_count = [
-            'male' => $checked_in_staff_for_the_month->where('user.gender', 'male')->count(),
-            'female' => $checked_in_staff_for_the_month->where('user.gender', 'female')->count(),
-        ];
-
-        // dd($staff_gender_count);
-        // Filter only male visitors
-        $male_visitors = $checked_in_visitors_for_the_month->filter(function ($checkIn) {
-            return $checkIn['visitor']['gender'] === 'male';
-        });
-        // Filter only female visitors
-        $female_visitors = $checked_in_visitors_for_the_month->filter(function ($checkIn) {
-            return $checkIn['visitor']['gender'] === 'female';
-        });
-
-        // Gender count for visitors for the month
-        $visitor_gender_count = [
-            'male' =>  $male_visitors->count(),
-            'female' => $female_visitors->count()
-        ];
-          
-        // get all staffs
-        $staffs = User::with('role')->get(); 
-//    dd($staffs);
-
         return view('dashboard.index', [
             'checked_in_visitors_today' => $checked_in_visitors_today,
             'checked_in_staff_today' => $checked_in_staff_today,
@@ -91,11 +66,11 @@ class AdminController extends Controller
             'visitor_for_the_month' => $checked_in_visitors_for_the_month,
             'number_of_checked_in_staff_today' => $number_of_checked_in_staff_today,
             'checked_in_staff_yesterday' => $checked_in_staff_yesterday,
-            'checked_in_visitors_yesterday' => $checked_in_visitors_yesterday,
-            'selectedDate' => $selectedDate,
-            'staff_gender_count' => $staff_gender_count,
-            'visitor_gender_count' => $visitor_gender_count,
+            'checked_in_visitors_yesterday' => $checked_in_visitors_yesterday,  
             'staffs' =>  $staffs
+            'selectedDate' => $selectedDate, 
+            'recent' => $recent
+
         ]);
     }
 
@@ -124,7 +99,6 @@ class AdminController extends Controller
 
         $staffs = Role::where('name', 'Staff')->with('users')->get();
 
-        // Build the query
         $visitors_for_the_month = VisitorHistories::whereMonth('check_in_time', date('m'))
             ->whereYear('check_in_time', date('Y'))
             ->with(['visitor.user'])

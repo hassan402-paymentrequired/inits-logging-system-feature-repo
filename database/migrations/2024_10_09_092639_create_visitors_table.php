@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("name");
             $table->string("phone_number");
             $table->longText("purpose_of_visit");
-            $table->foreignId("admin_id")->constrained("users", "id")->cascadeOnDelete();
+            $table->foreignId("admin_id")->nullable()->constrained("users", "id")->cascadeOnDelete();
             $table->foreignId("staff_id")->nullable()->default(null)->constrained("users", "id")->cascadeOnDelete();
             $table->timestamps();
         });

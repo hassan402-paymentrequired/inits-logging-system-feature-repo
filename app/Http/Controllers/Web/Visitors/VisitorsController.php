@@ -58,11 +58,15 @@ class VisitorsController extends Controller
                 'check_in_time' => now(),
                 'check_out_time' => null,
                 'duration_time' => null,
+                'admin_id' => Auth::id()
             ]);
     
             SendVisitorsNotificationService::send();
-            // Redirect to a valid route
+
+           // Redirect to a valid route
             return redirect()->route('dashboard')->with('success', 'Visitor checked in successfully');
+
+
         }
     
         // If visitor doesn't exist, create a new visitor and history
@@ -133,10 +137,9 @@ class VisitorsController extends Controller
         return redirect('v1/visitors');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function checkOut(string $id)
+    
+//       Remove the specified resource from storage.
+   public function checkOut(string $id)
     {
         // Get the visitor along with today's visitor history
         $visitor = Visitor::with(['visitorhistories' => function ($query) {
@@ -159,4 +162,3 @@ class VisitorsController extends Controller
     
         return redirect("/v1/dashboard")->with('success', 'Visitor checked out successfully.');
     }
-}
