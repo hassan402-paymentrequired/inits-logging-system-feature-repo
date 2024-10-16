@@ -52,10 +52,10 @@ class VisitorsController extends Controller
                 'check_in_time' => now(),
                 'check_out_time' => null,
                 'duration_time' => null,
+                'admin_id' => Auth::id()
             ]);
     
             SendVisitorsNotificationService::send();
-            // Redirect to a valid route
             return redirect()->route('visitors')->with('success', 'Visitor checked in successfully');
         }
     

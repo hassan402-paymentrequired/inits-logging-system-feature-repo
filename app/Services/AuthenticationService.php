@@ -58,10 +58,8 @@ class AuthenticationService implements AuthenticationServiceInterface
 
     public function ApiLogin(string $email, bool $remember_me = false)
     {
-        $user = User::where('email',  $email)->first();
-        $token = Auth::guard('api')->login($user);
-
-        if (! $token) {
+    
+        if (! $token = auth()->guard('api')->attempt(['email' => $email, 'password' => 'password'])) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -70,6 +68,6 @@ class AuthenticationService implements AuthenticationServiceInterface
 
     public function getLoginUser(Request $request)
     {
-        return $request->user();
+        return auth()->guard('api')->user();
     }
 }

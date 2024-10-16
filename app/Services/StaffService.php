@@ -15,17 +15,17 @@ class StaffService implements StaffServiceInterface
 
     public function getStaffVisitors(Request $request)
     {
-        return $request->user()->visitors()->with('visitorhistories')->get();
+        return auth()->guard('api')->user()->visitors()->with('visitorhistories')->get();
     }
 
     public function getStaffCheckInHistory(Request $request)
     {
-        return $request->user()->staffcheckins()->get();
+        return auth()->guard('api')->user()->staffcheckins()->get();
     }
 
     public function getTotalCurrentGuest(Request $request)
     {
-        return $request->user()->visitors()
+        return auth()->guard('api')->user()->visitors()
             ->with('visitorhistories')
             ->whereMonth('created_at', date('m'))
             ->whereYear('created_at', date('Y'))
