@@ -26,11 +26,11 @@ class StaffController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        $staff=;
-        return view('staffs.show', ['staff' => $staff]);
-    }
+    // public function show(string $id)
+    // {
+    //     $staff=;
+    //     return view('staffs.show', ['staff' => $staff]);
+    // }
 
     /**
      * Display the specified resource.
