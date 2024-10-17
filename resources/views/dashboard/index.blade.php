@@ -190,7 +190,7 @@
                                 </div>
                                 <!-- Modal for All Staff Check-ins -->
                                 <div class="modal fade" id="allStaffModal" tabindex="-1" aria-labelledby="allStaffModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
+                                    <div class="modal-dialog modal-md">
                                         <div class="modal-content border border-primary border-2">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="allStaffModalLabel">All Staff Check-ins for Today</h5>
