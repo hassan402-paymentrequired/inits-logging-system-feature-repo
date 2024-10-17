@@ -18,7 +18,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
- // Make sure to import your Staff model
+// Make sure to import your Staff model
 
 
 
@@ -35,12 +35,12 @@ Route::group(['prefix' => 'v1'], function () {
 Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
     Route::get("/admin/dashboard", [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/staffs',  [AdminController::class, 'getAllStaffsHistory'])->name('staffs');
-    Route::post('/visitors/create', [VisitorsController::class, 'stoore'])->name('add.visitors');
+    Route::post('/visitors/create', [VisitorsController::class, 'store'])->name('add.visitors');
     Route::get('/admin/visitors/update/{visitor}', [VisitorsController::class, 'edit'])->name('update.visitor.form');
     Route::patch('/admin/visitors/update/{visitor}', [VisitorsController::class, 'update'])->name('update.visitor.data');
     Route::patch('/admin/visitors/check-out/{visitor}', [VisitorsController::class, 'checkOut'])->name('check.visitor.out');
-    Route::get('/admin/staffs/update/{staff}', [StaffController::class, 'edit'])->name('update.staff.form');
-    Route::get('/admin/staffs/{staff}', [StaffController::class, 'show'])->name('staff.log');
+    Route::get('/admin/staffs/update/{staff}', [StaffController::class, 'show'])->name('staff.log');
+    Route::get('/admin/staffs/{staff}', [StaffController::class, 'edit'])->name('update.staff.form');
     Route::patch('/admin/staffs/update/{staff}', [StaffController::class, 'update'])->name('update.staff.data');
     Route::get('/visitors', [AdminController::class, 'getAllTheVisitorForTheMonth'])->name('visitors');
     Route::post('/add-staff', [StaffController::class, 'store'])->name('create.new.staff');

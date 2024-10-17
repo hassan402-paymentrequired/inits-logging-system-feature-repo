@@ -26,19 +26,21 @@ class StaffController extends Controller
     /**
      * Display the specified resource.
      */
-<<<<<<< HEAD
-    public function show(string $id)
+    public function show( Request $request, string $id)
     {
+        $search = $request->selected_month;
+        $staffHistories = User::with(['staffcheckins' =>  function ($query) use ($search){
+            $query->whereYear('check_in_time', date('Y'));
+            $query->whereMonth('check_in_time', $search ? $search : date('m'));
+        }])->find($id);
 
-        // return view('staffs.show', ['staff' => $staff]);
+        $groupedByWeek = $staffHistories->staffcheckins->groupBy(function ($checkin) {
+            return Carbon::parse($checkin->check_in_time)->startOfWeek()->format('W'); // Week number
+        });
+
+
+        return view('staffs.show', ['staff' => $groupedByWeek]);
     }
-=======
-    // public function show(string $id)
-    // {
-    //     $staff=;
-    //     return view('staffs.show', ['staff' => $staff]);
-    // }
->>>>>>> 39c5bfef9865e16ed088a4e34eeb34d8e2eeb4f2
 
     /**
      * Display the specified resource.
