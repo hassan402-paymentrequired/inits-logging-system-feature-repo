@@ -3,12 +3,6 @@
 @section('title', 'Staffs')
 
 @section('main-content')
-    {{--  <!-- Breadcrumb Component -->
-    <div class="d-flex justify-content-between align-items-center">
-    <x-breadcrumb title="Staffs" :items="[
-        ['name' => 'Staffs', 'url' => '#', 'active' => false],
-        ['name' => 'Overview', 'url' => '#', 'active' => true],
-    ]" />  --}}
 
     <div class="accordion" id="accordionExample">
       <div class="accordion-item">
