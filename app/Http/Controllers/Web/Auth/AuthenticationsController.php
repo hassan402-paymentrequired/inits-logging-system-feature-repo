@@ -43,7 +43,7 @@ class AuthenticationsController extends Controller
         if($response['status'] == 400) {
             return redirect()->back()->with("error", "Invalid email or password");
         }
-        return redirect('/admin/dashboard')->with("success", "Logged in successfully");
+        return redirect('/dmin/dashboard')->with("success", "Logged in successfully");
     }
 
     public function logout(Request $request)

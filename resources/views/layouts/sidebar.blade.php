@@ -3,7 +3,7 @@
         <img src="{{ asset('build/assets/Logo (1).png') }}" alt="Logo" class="w-75" />
     </a>
     <ul class="side-menu top">
-      <x-nav-link href="/v1/admin/dashboard" icon="bi-house-door" :active="request()->is('v1/admin/dashboard')">Dashboard</x-nav-link>
+      <x-nav-link href="/v1/dmin/dashboard" icon="bi-house-door" :active="request()->is('v1/dmin/dashboard')">Dashboard</x-nav-link>
       <x-nav-link href="/v1/visitors" icon="bi-people-fill" :active="request()->is('v1/visitors')">Visitors</x-nav-link>
       <x-nav-link href="/v1/staffs" icon="bi-person-workspace" :active="request()->is('v1/staffs')">Staffs</x-nav-link>
       {{--  <x-nav-link href="/v1/notifications" icon="bi-bell-fill" :active="request()->is('v1/notifications')">Notifications</x-nav-link>  --}}
