@@ -95,7 +95,7 @@ class AdminController extends Controller
 
             'recent_checked_in_staff' => $recent_checked_in_staff,
             'oldest_checked_in_staff' => $oldest_checked_in_staff,
-            'staffs_for_today' => $staffs_for_today
+            'staffs_for_today' => $staffs_for_today,
             'staffs' => $staffs,
             'recent' => $recent
 

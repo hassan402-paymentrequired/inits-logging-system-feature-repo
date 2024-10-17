@@ -27,7 +27,7 @@
          </ul>
         <ul class="side-menu">
           <li>
-            <form id="logoutForm" action="/v1/staff-logout" method="post" style="display: inline;">
+            <form id="logoutForm" action="{{ route('logout') }}" method="post" style="display: inline;">
               @csrf
               <button id="submitButton" type="button" class="logout btn">
                 <i class="bi bi-box-arrow-right text-danger m-2"></i>

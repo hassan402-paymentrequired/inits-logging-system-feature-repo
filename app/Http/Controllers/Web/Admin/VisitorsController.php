@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\Visitors;
+namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -21,7 +21,9 @@ class VisitorsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * check in a new visitor
+     * @param Visitor $data
+     * return redirect
      */
     public function store(Request $request)
     {
@@ -63,7 +65,7 @@ class VisitorsController extends Controller
             SendVisitorsNotificationService::send('Yooooo! bro common check it out. You have a visitor down here with the name'.$request->name );
 
            // Redirect to a valid route
-            return redirect()->route('dashboard')->with('success', 'Visitor checked in successfully');
+            return redirect()->route('admin.dashboard')->with('success', 'Visitor checked in successfully');
 
         }
     
@@ -85,7 +87,7 @@ class VisitorsController extends Controller
         SendVisitorsNotificationService::send('Yooooo! bro common check it out. You have a visitor down here with the name'.$request->name );
 
         // Redirect to a valid route after successful check-in
-        return redirect()->route('dashboard')->with('success', ' Checked in Visitor successfully');
+        return redirect()->route('admin.dashboard')->with('success', ' Checked in Visitor successfully');
 
     }
     
@@ -117,12 +119,6 @@ class VisitorsController extends Controller
             return redirect()->back()->withErrors($visitors_infos);
         }
 
-        // $staff = User::where('email', $request->staff)->first();
-        // if(!$staff)
-        // {
-        //     return redirect()->back()->with('invalid', 'No staff found with the provided email');
-        // }
-
         $visitor->update([
             'name' => $request->name,
             'phone_number' => $request->phone_number,
@@ -135,7 +131,11 @@ class VisitorsController extends Controller
     }
 
     
-//       Remove the specified resource from storage.
+    /**
+     *  check the visitors out for the day
+     * @param Visitor  $id
+     * @redirect admin.dashboard
+     */
    public function checkOut(string $id)
     {
         // Get the visitor along with today's visitor history
@@ -151,12 +151,11 @@ class VisitorsController extends Controller
             $visitor->visitorhistories->first()->update([
                 'check_out_time' => now(), 
             ]);
-
          
         } else {
-            return redirect()->back()->withErrors('No check-in record found for this visitor today.');
+            return redirect()->back()->with('error', 'No check-in record found for this visitor today.');
         }
     
-        return redirect("/v1/dashboard")->with('success', 'Visitor checked out successfully.');
+        return redirect(route('admin.dashboard'))->with('success', 'Visitor checked out successfully.');
     }
 }

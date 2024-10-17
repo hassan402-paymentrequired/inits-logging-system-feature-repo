@@ -20,7 +20,7 @@
                   <img src="{{ asset('build/assets/Logo (1).png') }}" alt="Logo" class="img-fluid w-50">
                 </div>
                 <!-- Smaller Form -->
-                <form id="form" class="border shadow bg-white px-5 py-5" action="{{ route('staffs.login') }}" method="POST" style="height: 450px;">
+                <form id="form" class="border shadow bg-white px-5 py-5" action="{{ route('login') }}" method="POST" style="height: 450px;">
                     @csrf
                
                     <div class="text-center mb-3">

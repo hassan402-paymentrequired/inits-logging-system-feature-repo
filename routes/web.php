@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Web\Admin\AdminController;
-use App\Http\Controllers\Web\Oauth\OauthController;
+use App\Http\Controllers\Web\Admin\OauthController;
+use App\Http\Controllers\Web\Admin\VisitorsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Auth\AuthenticationsController;
 use App\Http\Controllers\Web\Staffs\StaffController;
-use App\Http\Controllers\Web\Visitors\VisitorsController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 /*
@@ -19,35 +19,34 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 |
 */
 
+Route::view('/', 'info');
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::get('/login', [AuthenticationsController::class, 'login'])->name('login-form');
-    Route::get('/',  [StaffController::class, 'create'])->name('staffs.login.page');
-    Route::post('/staff-login',  [StaffController::class, 'login'])->name('staffs.login');
-    Route::post('/login', [AuthenticationsController::class, 'authenticateUser'])->name('login')->middleware('guest');
-    Route::get('/google/auth/callback', [OauthController::class, 'handleCallback']);
+    Route::get('/admin-login', [AuthenticationsController::class, 'adminLoginView'])->name('admin.login.form');
+    Route::get('/staff-login', [AuthenticationsController::class, 'staffLoginView'])->name('staff.login.form');
+    Route::post('/login', [AuthenticationsController::class, 'authenticateUser'])->name('login');
+    Route::get('/google/auth/callback', [OauthController::class, 'handleCallback'])->name('google.callback');
+    Route::post("/logout", [AuthenticationsController::class, 'logout'])->name('logout')->middleware('auth');
 });
 
-Route::middleware(['web', 'admin'])->prefix('v1')->group(function () {
-    Route::get("/dmin/dashboard", [AdminController::class, 'index'])->name('dashboard');
+Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
+    Route::get("/admin/dashboard", [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/staffs',  [AdminController::class, 'getAllStaffsHistory'])->name('staffs');
-    Route::post('/visitors/create', [VisitorsController::class, 'store'])->name('add-visitors');
-    Route::get('/admin/visitors/update/{visitor}', [VisitorsController::class, 'edit'])->name('update-visitor-form');
-    Route::patch('/admin/visitors/update/{visitor}', [VisitorsController::class, 'update'])->name('update-visitor-data');
-    Route::patch('/admin/visitors/check-out/{visitor}', [VisitorsController::class, 'checkOut'])->name('check-visitor-out');
-    Route::get('/admin/staffs/update/{staff}', [StaffController::class, 'edit'])->name('update-staff-form');
-    Route::patch('/admin/staffs/update/{staff}', [StaffController::class, 'update'])->name('update-staff-data');
+    Route::post('/visitors/create', [VisitorsController::class, 'stoore'])->name('add.visitors');
+    Route::get('/admin/visitors/update/{visitor}', [VisitorsController::class, 'edit'])->name('update.visitor.form');
+    Route::patch('/admin/visitors/update/{visitor}', [VisitorsController::class, 'update'])->name('update.visitor.data');
+    Route::patch('/admin/visitors/check-out/{visitor}', [VisitorsController::class, 'checkOut'])->name('check.visitor.out');
+    Route::get('/admin/staffs/update/{staff}', [StaffController::class, 'edit'])->name('update.staff.form');
+    Route::patch('/admin/staffs/update/{staff}', [StaffController::class, 'update'])->name('update.staff.data');
     Route::get('/visitors', [AdminController::class, 'getAllTheVisitorForTheMonth'])->name('visitors');
-    Route::post('/admin/staff', [StaffController::class, 'store']);
-    Route::get('/notifications', [AdminController::class, 'notifications'])->name('notifications');
+    Route::post('/admin/staff', [StaffController::class, 'store'])->name('unknown.now');
     Route::post('/add-staff', [AdminController::class, 'createNewStaff'])->name('create.new.staff');
     Route::get('/geofencing', [AdminController::class, 'geofence'])->name('geofencing');
-    Route::post("/logout", [AuthenticationsController::class, 'logout']);
     Route::post('/points', [AdminController::class, 'geofence'])->name('mark.view');
     Route::post('/points', [AdminController::class, 'storeGeofence'])->name('mark.geofence');
 });
 
-Route::middleware(['web'])->prefix('v1')->group(function(){
+Route::middleware(['web'])->prefix('v1')->group(function () {
     Route::get('/staff/dashboard', [StaffController::class, 'index'])->name('staff.dashboard');
     Route::get('/check-in-history', [StaffController::class, 'getStaffCheckInHistory'])->name('staff.history');
     Route::get('/current', [StaffController::class, 'getStaffCurrentVisitors'])->name('staff.current.visitors.for.the.day');

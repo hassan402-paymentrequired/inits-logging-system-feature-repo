@@ -71,17 +71,17 @@
                                     <td class="text-">{{ $item->visitor->user->name }}</td>
                                 @elseif($type === 'staffs')
                                     <td>
-                                        <a href="{{ route('update-staff-data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
+                                        <a href="{{ route('update.staff.data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
                                             <small>{{ $item->name }}</small>
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="{{ route('update-staff-data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
+                                        <a href="{{ route('update.staff.data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
                                             <small>{{ $item->email }}</small>
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="{{ route('update-staff-data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
+                                        <a href="{{ route('update.staff.data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
                                             <small>{{ $item->phone_number }}</small>
                                         </a>
                                     </td>

@@ -3,16 +3,14 @@
         <img src="{{ asset('build/assets/Logo (1).png') }}" alt="Logo" class="w-75" />
     </a>
     <ul class="side-menu top">
-      <x-nav-link href="/v1/dmin/dashboard" icon="bi-house-door" :active="request()->is('v1/dmin/dashboard')">Dashboard</x-nav-link>
-      <x-nav-link href="/v1/visitors" icon="bi-people-fill" :active="request()->is('v1/visitors')">Visitors</x-nav-link>
-      <x-nav-link href="/v1/staffs" icon="bi-person-workspace" :active="request()->is('v1/staffs')">Staffs</x-nav-link>
-      {{--  <x-nav-link href="/v1/notifications" icon="bi-bell-fill" :active="request()->is('v1/notifications')">Notifications</x-nav-link>  --}}
-      {{--  <x-nav-link href="/v1/analytics" icon="bi-bar-chart-line-fill" :active="request()->is('v1/analytics')">Analytics</x-nav-link>  --}}
+      <x-nav-link href=" {{ route('admin.dashboard') }} " icon="bi-house-door" :active="request()->is('v1/dmin/dashboard')">Dashboard</x-nav-link>
+      <x-nav-link href="{{ route('visitors') }}" icon="bi-people-fill" :active="request()->is('v1/visitors')">Visitors</x-nav-link>
+      <x-nav-link href="{{ route('staffs') }}" icon="bi-person-workspace" :active="request()->is('v1/staffs')">Staffs</x-nav-link>
       <x-nav-link href="/v1/geofencing" icon="bi-geo-alt-fill" :active="request()->is('v1/geofencing')">Geofencing</x-nav-link>
     </ul>
     <ul class="side-menu">
       <li>
-        <form id="logoutForm" action="/v1/logout" method="post" style="display: inline;">
+        <form id="logoutForm" action="{{ route('logout') }}" method="post" style="display: inline;">
           @csrf
           <button id="submitButton" type="button" class="logout btn">
             <i class="bi bi-box-arrow-right text-danger m-2"></i>

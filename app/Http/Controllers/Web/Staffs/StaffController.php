@@ -25,9 +25,6 @@ class StaffController extends Controller
     }
 
 
-    
-
-
     /**
      * Display a listing of the resource.
      */
@@ -109,7 +106,7 @@ class StaffController extends Controller
             'password' => Hash::make('password'),
         ]);
 
-        return redirect(route('dashboard'));
+        return redirect(route('admin.dashboard'));
     }
 
     /**
@@ -118,9 +115,7 @@ class StaffController extends Controller
     public function show(string $id)
     {
         $user = User::with('role')->find($id)->first();
-
         return view('staffs.show');
-
     }
 
      /**

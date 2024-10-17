@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\AuthenticationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -20,9 +21,17 @@ class AuthenticationsController extends Controller
         $this->authenticationService = $authenticationService;
     }
 
-    public function login():View
+    public function AdminLoginView():View
     {
-        return view("auth.login"); 
+        return view("auth.admin-login"); 
+    }
+
+    public function StaffLoginView():View
+    {
+        $staffs = User::whereHas('role', function($query) {
+            $query->where('name', 'Staff');
+        })->get();
+        return view("auth.staff-login", ['staffs' => $staffs]); 
     }
 
     public function authenticateUser(Request $request)
@@ -43,13 +52,17 @@ class AuthenticationsController extends Controller
         if($response['status'] == 400) {
             return redirect()->back()->with("error", "Invalid email or password");
         }
-        return redirect('/dmin/dashboard')->with("success", "Logged in successfully");
+
+        if(strtolower($response['role']) == 'staff')
+            return redirect(route('staff.dashboard'))->with("success", "Logged in successfully");
+
+        return redirect(route('admin.dashboard'))->with("success", "Logged in successfully");
     }
 
     public function logout(Request $request)
     {
        $this->authenticationService->webLogout($request);
-        return redirect('/v1');
+        return redirect('/');
     }
 
 
