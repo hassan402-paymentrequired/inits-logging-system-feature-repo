@@ -3,10 +3,10 @@
         <img src="{{ asset('build/assets/Logo (1).png') }}" alt="Logo" class="w-75" />
     </a>
     <ul class="side-menu top">
-      <x-nav-link href="{{ route('admin.dashboard') }}" icon="bi-house-door" :active="request()->is('v1/dmin/dashboard')">Dashboard</x-nav-link>
+      <x-nav-link href="{{ route('admin.dashboard') }}" icon="bi-house-door" :active="request()->is('v1/admin/dashboard')">Dashboard</x-nav-link>
       <x-nav-link href="{{ route('visitors') }}" icon="bi-people-fill" :active="request()->is('v1/visitors')">Visitors</x-nav-link>
       <x-nav-link href="{{ route('staffs') }}" icon="bi-person-workspace" :active="request()->is('v1/staffs')">Staffs</x-nav-link>
-      <x-nav-link href="/v1/geofencing" icon="bi-geo-alt-fill" :active="request()->is('v1/geofencing')">Geofencing</x-nav-link>
+      <x-nav-link href="{{ route('geofencing') }}" icon="bi-geo-alt-fill" :active="request()->is('v1/geofencing')">Geofencing</x-nav-link>
     </ul>
     <ul class="side-menu">
       <li>

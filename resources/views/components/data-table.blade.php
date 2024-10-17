@@ -72,7 +72,7 @@
                                 @elseif($type === 'staffs')
                                     <td>
 
-                                        <a href="{{ route('update-staff-data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
+                                        <a href="{{ route('update.staff.data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
                                             <small>{{  ucwords($item->name) }}</small>
 
                                         </a>
