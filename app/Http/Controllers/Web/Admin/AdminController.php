@@ -68,26 +68,36 @@ class AdminController extends Controller
 
 
 
+        // Get checked-in visitors for yesterday (if needed)
+        $checked_in_visitors_yesterday = VisitorHistories::whereDate('check_in_time', now()->subDay())
+            ->with(['visitor.user'])
+            ->get();
 
-            // get staffs
-            $staffs = User::with('role')->get(); 
+        // Get checked-in staff for yesterday (if needed)
+        $checked_in_staff_yesterday = StaffCheckIns::whereDate('check_in_time', now()->subDay())
+            ->with('user')
+            ->get();
 
-            
         // Count the number of staff checked in for the selected date
         $number_of_checked_in_staff_today = $checked_in_staff_today->count();
-
+        $staffs = User::with('role')->get();
+        $recent = StaffCheckIns::with('user')->whereDate('check_in_time', '=', Carbon::today()->toDateString())->limit(5)->latest();
 
         return view('dashboard.index', [
             'checked_in_visitors_today' => $checked_in_visitors_today,
             'checked_in_staff_today' => $checked_in_staff_today,
             'staff_for_the_month' => $checked_in_staff_for_the_month,
             'visitor_for_the_month' => $checked_in_visitors_for_the_month,
-            'number_of_checked_in_staff_today' => $number_of_checked_in_staff_today, 
-            'staffs' =>  $staffs,
+            'number_of_checked_in_staff_today' => $number_of_checked_in_staff_today,
+            'checked_in_staff_yesterday' => $checked_in_staff_yesterday,
+            'checked_in_visitors_yesterday' => $checked_in_visitors_yesterday,  
             'selectedDate' => $selectedDate, 
+
             'recent_checked_in_staff' => $recent_checked_in_staff,
             'oldest_checked_in_staff' => $oldest_checked_in_staff,
             'staffs_for_today' => $staffs_for_today
+            'staffs' => $staffs,
+            'recent' => $recent
 
         ]);
     }
@@ -104,18 +114,13 @@ class AdminController extends Controller
     return view('staffs.index', ['staffs' => $staffs]);
     }
 
-
-
-
-    public function function () {
-        return view('analytics.index');
+    function geofence() {
+        return view('geofencing.index');
     }
-
 
     public function storeGeofence(Request $request)
     {
         dd($request->all());
-
     }
 
     public function getAllTheVisitorForTheMonth(Request $request)
@@ -143,8 +148,8 @@ class AdminController extends Controller
 
         return view('visitors.index', [
             'visitors_for_the_month' => $visitors_for_the_month,
-            'search' => $search, 
-            'perPage' => $perPage,
+            'search' => $search, // Pass the search query to the view
+            'perPage' => $perPage, // Pass the per page value to the view
         ]); 
     }
 
@@ -159,7 +164,7 @@ class AdminController extends Controller
     
             if($staff_credentials->fails())
             {
-                return redirect()->back()->with('error', 'Invalid credentials');
+                return redirect()->back()->with('erorr', 'Invalid credentials');
             }
 
             $role_id = Role::where('name', 'Staff')->first();
