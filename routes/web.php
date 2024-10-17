@@ -5,7 +5,7 @@ use App\Http\Controllers\Web\Admin\OauthController;
 use App\Http\Controllers\Web\Admin\VisitorsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Auth\AuthenticationsController;
-use App\Http\Controllers\Web\Staffs\StaffController;
+use App\Http\Controllers\Web\Admin\StaffController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 /*
@@ -39,8 +39,7 @@ Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
     Route::get('/admin/staffs/update/{staff}', [StaffController::class, 'edit'])->name('update.staff.form');
     Route::patch('/admin/staffs/update/{staff}', [StaffController::class, 'update'])->name('update.staff.data');
     Route::get('/visitors', [AdminController::class, 'getAllTheVisitorForTheMonth'])->name('visitors');
-    Route::post('/admin/staff', [StaffController::class, 'store'])->name('unknown.now');
-    Route::post('/add-staff', [AdminController::class, 'createNewStaff'])->name('create.new.staff');
+    Route::post('/add-staff', [StaffController::class, 'store'])->name('create.new.staff');
     Route::get('/geofencing', [AdminController::class, 'geofence'])->name('geofencing');
     Route::post('/points', [AdminController::class, 'geofence'])->name('mark.view');
     Route::post('/points', [AdminController::class, 'storeGeofence'])->name('mark.geofence');

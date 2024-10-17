@@ -153,37 +153,5 @@ class AdminController extends Controller
         ]); 
     }
 
-    public function createNewStaff(Request $request)
-    {
-        try {
-            $staff_credentials = Validator::make($request->all(), [
-                'name' => 'required',
-                'phone_number' => 'required',
-                'email' => 'required|unique:users,email'
-            ]);
-    
-            if($staff_credentials->fails())
-            {
-                return redirect()->back()->with('erorr', 'Invalid credentials');
-            }
-
-            $role_id = Role::where('name', 'Staff')->first();
-    
-            User::create([
-                'name' => $request->name,
-                'phone_number' => $request->phone_number,
-                'email' => $request->email,
-                'password' => 'password',
-                'is_active' => 1,
-                'role_id' => $role_id->id
-            ]);
-    
-            return redirect()->back()->with('success', 'staff created successfully');
-            
-        } catch (Exception $exception) {
-            return redirect()->back()->with('error', 'Network error'.$exception->getMessage());
-        }
-        
-    }
 
 }
