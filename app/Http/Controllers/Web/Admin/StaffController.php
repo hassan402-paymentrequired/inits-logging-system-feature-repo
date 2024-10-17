@@ -28,8 +28,8 @@ class StaffController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::with('role')->find($id)->first();
-        return view('staffs.show', ['user' => $user]);
+
+        // return view('staffs.show', ['staff' => $staff]);
     }
 
     /**
