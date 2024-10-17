@@ -18,6 +18,9 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+ // Make sure to import your Staff model
+
+
 
 
 Route::group(['prefix' => 'v1'], function () {

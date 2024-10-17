@@ -355,3 +355,22 @@ option{
     display: none; /* Hide content initially */
     padding: 20px;
 }
+
+/* 
+#sidebar {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+  } */
+
+  /* @media (max-width: 992px) {
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1030;
+    }
+
+    #content {
+      margin-left: 0;
+    }
+  } */

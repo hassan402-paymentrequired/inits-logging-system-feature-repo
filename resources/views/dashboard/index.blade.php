@@ -147,7 +147,14 @@
                                 <div id="recent-checkins" class="staff-checkins">
                                     @foreach ($recent_checked_in_staff as $staffCheckIn)
                                         <div class="row mb-2 recent">
-                                            <div class="col-4"><small>{{ $staffCheckIn->user->name }}</small></div>
+                                            <div class="col-4">
+                                            <a href="" class="">
+                                                <small>{{ ucwords($staffCheckIn->user->name) }}</small>
+                                        </a>
+                                            
+                                            </div>
+
+
                                             <div class="col-4 text-muted">
                                                 <small>
                                                     <span 
@@ -164,6 +171,7 @@
                                             <div class="col-4 d-flex align-items-center justify-content-center text-muted">
                                                 <small>{{ \Carbon\Carbon::parse($staffCheckIn->check_in_time)->format('g:i A') }}</small>
                                             </div>
+                                      
                                         </div>
                                     @endforeach
                                 </div>

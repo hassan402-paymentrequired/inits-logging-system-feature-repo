@@ -58,7 +58,7 @@
                             <tr class="p-4">
                                 @if($type === 'visitors')
                                     <td>
-                                            <small class="fw-normal">{{ $item->visitor->name }}</small>
+                                            <small class="fw-normal">{{  ucwords($item->visitor->name) }}</small>
                                     </td>
                                     <td>
                                    
@@ -66,13 +66,13 @@
                                     
                                     </td>
                                     <td>
-                                            <small class="fw-normal">{{ $item->visitor->purpose_of_visit }}</small>
+                                            <small class="fw-normal">{{  ucwords($item->visitor->purpose_of_visit) }}</small>
                                     </td>
-                                    <td class="text-">{{ $item->visitor->user->name }}</td>
+                                    <td class="text-">{{  ucwords($item->visitor->user->name) }}</td>
                                 @elseif($type === 'staffs')
                                     <td>
                                         <a href="{{ route('update-staff-data', $item->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Staff">
-                                            <small>{{ $item->name }}</small>
+                                            <small>{{  ucwords($item->name) }}</small>
                                         </a>
                                     </td>
                                     <td>
