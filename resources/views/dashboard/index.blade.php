@@ -33,7 +33,7 @@
 </div>
 
 
- <x-modal  route="add-visitors" :data="$staffs" visitorsModel='addVisitorModalLabel' modalType="visitor" /> 
+ <x-modal  route="add.visitors" :data="$staffs" visitorsModel='addVisitorModalLabel' modalType="visitor" /> 
 
 <div class="d-flex flex-column flex-md-row align-items-center w-100 mb-3">
   <small class="text-muted mb-2 mb-md-0 me-md-3">
@@ -41,7 +41,7 @@
    <span class="text-muted fw-semibold fst-italic"> {{ \Carbon\Carbon::parse($selectedDate)->format('F j, Y') }}</small>
 </span>
   {{-- Date Picker Form --}}
-  <form action="{{ route('dashboard') }}" method="GET" class="ms-md-auto">
+  <form action="{{ route('admin.dashboard') }}" method="GET" class="ms-md-auto">
       <div class="input-group">
       
           <input type="date" class="form-control text-primary" name="selected_date" value="{{ $selectedDate }}" required />
@@ -289,6 +289,9 @@
                     </tr>
                 </thead>
                 <tbody id="visitorTableBody">
+                @session('error')
+                    {{ session('error') }}
+                @endsession 
                     @foreach($checked_in_visitors_today as $visitor)
                         @php
                             $checkInTime = \Carbon\Carbon::parse($visitor->created_at)->format('g:i A');
@@ -310,7 +313,7 @@
                                 @if($visitor->check_out_time)
                                     <button type="button" class="btn btn-sm btn-outline-danger" disabled><i class="bi bi-exclamation-diamond"></i></button>
                                 @else
-                                    <form method="POST" action="{{ route('check-visitor-out', $visitor->visitor->id) }}" class="w-0">
+                                    <form method="POST" action="{{ route('check.visitor.out', $visitor->visitor->id) }}" class="w-0">
                                         @method('PATCH')
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-outline-danger">Checkout</button>

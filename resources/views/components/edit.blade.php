@@ -6,7 +6,7 @@
           <h3 class="mb-0">Edit {{ ucfirst($type) }}</h3>
         </div>
         <div class="card-body px-5 py-4 border border-primary border-2">
-          <form id="editForm" action="{{ route($type === 'visitor' ? 'update-visitor-data' : 'update-staff-data', $person->id) }}" method="POST">
+          <form id="editForm" action="{{ route($type === 'visitor' ? 'update.visitor.data' : 'update.staff.data', $person->id) }}" method="POST">
             @csrf
             @method('PATCH')
 

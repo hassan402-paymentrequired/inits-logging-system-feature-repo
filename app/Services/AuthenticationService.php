@@ -31,7 +31,11 @@ class AuthenticationService implements AuthenticationServiceInterface
 
         Auth::guard('web')->login($user, $remember_me);
 
-        return ["status" => 200];
+        $role = $user->role()->get();
+        return [
+            'status' => 200,
+            'role' => $role[0]->name
+        ];
     }
 
     /**
