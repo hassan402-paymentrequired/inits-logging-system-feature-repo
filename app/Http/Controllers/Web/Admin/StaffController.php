@@ -26,19 +26,16 @@ class StaffController extends Controller
     /**
      * Display the specified resource.
      */
-<<<<<<< HEAD
+
     public function show(string $id)
     {
+        $staff = User::all();
+        return view('staffs.show', ['staff' => $staff]);
+    }
+
 
         // return view('staffs.show', ['staff' => $staff]);
-    }
-=======
-    // public function show(string $id)
-    // {
-    //     $staff=;
-    //     return view('staffs.show', ['staff' => $staff]);
-    // }
->>>>>>> 39c5bfef9865e16ed088a4e34eeb34d8e2eeb4f2
+
 
     /**
      * Display the specified resource.
