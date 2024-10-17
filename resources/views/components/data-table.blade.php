@@ -28,18 +28,16 @@
                 </div>
                 <div class="datatable-search position-relative">
                     <i class="bi bi-search position-absolute text-primary" style="left: 10px; top: 50%; transform: translateY(-50%);"></i>
-                    <input 
-                        name="search" 
-                        class="form-control ps-5" 
-                        placeholder="Search {{ $type === 'visitors' ? 'visitors' : 'staff' }} name..." 
-                        type="search" 
-                        value="{{ request('search') }}" 
-                        aria-controls="datatablesSimple"
-                    >
+              
+                  
+                        <input type="text" id="searchInput" class="form-control  ps-5" placeholder="Search visitor's name..." onkeyup="searchTable()"    aria-controls="datatablesSimple">
+                  
+                    
                 </div>
             </div>
 
             <div class="datatable-container">
+               
                 <table class="table table-bordered table-striped table-hover" id="datatablesSimple">
                     <thead>
                         <tr class="p-4">
@@ -60,19 +58,15 @@
                             <tr class="p-4">
                                 @if($type === 'visitors')
                                     <td>
-                                        <a href="{{ route('update-visitor-data', $item->visitor->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Visitor">
                                             <small class="fw-normal">{{ $item->visitor->name }}</small>
-                                        </a>
                                     </td>
                                     <td>
-                                        <a href="{{ route('update-visitor-data', $item->visitor->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Visitor">
+                                   
                                             <small class="fw-normal">{{ $item->visitor->phone_number }}</small>
-                                        </a>
+                                    
                                     </td>
                                     <td>
-                                        <a href="{{ route('update-visitor-data', $item->visitor->id) }}" class="text-decoration-none text-muted" data-bs-toggle="tooltip" title="View Visitor">
                                             <small class="fw-normal">{{ $item->visitor->purpose_of_visit }}</small>
-                                        </a>
                                     </td>
                                     <td class="text-">{{ $item->visitor->user->name }}</td>
                                 @elseif($type === 'staffs')
@@ -111,3 +105,35 @@
 </div>
 
 
+
+<script>
+    function searchTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById('datatablesSimple');
+        const rows = table.getElementsByTagName('tr');
+
+        // Loop through all table rows, excluding the header
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let rowContainsSearchTerm = false;
+
+            // Loop through each cell in the row
+            for (let j = 0; j < cells.length; j++) {
+                const cellText = cells[j].textContent || cells[j].innerText;
+                // Check if the cell contains the search term
+                if (cellText.toLowerCase().indexOf(filter) > -1) {
+                    rowContainsSearchTerm = true;
+                    break; // No need to check other cells if one matches
+                }
+            }
+
+            // Show or hide the row based on the search term
+            if (rowContainsSearchTerm) {
+                rows[i].style.display = ''; // Show row
+            } else {
+                rows[i].style.display = 'none'; // Hide row
+            }
+        }
+    }
+</script>
