@@ -42,6 +42,9 @@ Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
     Route::get('/admin/staffs/update/{staff}', [StaffController::class, 'show'])->name('staff.log');
     Route::get('/admin/staffs/{staff}', [StaffController::class, 'edit'])->name('update.staff.form');
     Route::patch('/admin/staffs/update/{staff}', [StaffController::class, 'update'])->name('update.staff.data');
+
+    // Route::patch('/admin/staffs/update/{staff}', [StaffController::class, 'update'])->name('update.staff.data');
+
     Route::get('/visitors', [AdminController::class, 'getAllTheVisitorForTheMonth'])->name('visitors');
     Route::post('/add-staff', [StaffController::class, 'store'])->name('create.new.staff');
     Route::get('/geofencing', [AdminController::class, 'geofence'])->name('geofencing');
