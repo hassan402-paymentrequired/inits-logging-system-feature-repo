@@ -304,7 +304,15 @@ td {
     background-color: var(--light-blue);
 }
 
-/* styles.css */
+
+.oldest:hover {
+    cursor: pointer;
+    background-color: var(--light-blue);
+}
+
+option{
+    cursor: pointer;
+}
 
 .loader {
     position: fixed;

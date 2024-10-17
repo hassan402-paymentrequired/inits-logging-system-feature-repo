@@ -47,19 +47,24 @@ class AdminController extends Controller
         $checked_in_staff_today = StaffCheckIns::whereDate('check_in_time', $selectedDate)
             ->with('user')
             ->paginate(10);
-  
-        
+
+     $staffs_for_today = StaffCheckIns::whereDate('check_in_time', Carbon::today())
+    ->with('user') // Eager load the 'user' relationship to get staff details
+    ->get();
+
+
                 // Get 10 most recent staff check-ins
-    $recent_checked_in_staff = StaffCheckIns::with('user')
-    ->latest('check_in_time') // Sort by check_in_time in descending order
-    ->take(10) // Limit to 10 results
-    ->get();
-
-
-    $oldest_checked_in_staff = StaffCheckIns::with('user')
-    ->oldest('check_in_time') // Sort by check_in_time in ascending order
-    ->take(10) // Limit to 10 results
-    ->get();
+                $recent_checked_in_staff = StaffCheckIns::with('user')
+                ->whereDate('check_in_time', Carbon::today()) // Filter by today's date
+                ->latest('check_in_time') // Sort by check_in_time in descending order
+                ->take(10) // Limit to 10 results
+                ->get();
+            // Get 10 oldest staff check-ins for today
+            $oldest_checked_in_staff = StaffCheckIns::with('user')
+                ->whereDate('check_in_time', Carbon::today()) // Filter by today's date
+                ->oldest('check_in_time') // Sort by check_in_time in ascending order
+                ->take(10) // Limit to 10 results
+                ->get();
 
 
 
@@ -81,7 +86,8 @@ class AdminController extends Controller
             'staffs' =>  $staffs,
             'selectedDate' => $selectedDate, 
             'recent_checked_in_staff' => $recent_checked_in_staff,
-            'oldest_checked_in_staff' => $oldest_checked_in_staff
+            'oldest_checked_in_staff' => $oldest_checked_in_staff,
+            'staffs_for_today' => $staffs_for_today
 
         ]);
     }
