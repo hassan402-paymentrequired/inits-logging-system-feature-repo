@@ -9,14 +9,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>@yield('title')</title>
 </head>
 <body>
-    <div class="d-flex justify-content-center ">
+    <div class="">
        <!-- Sidebar -->
-       <section id="sidebar" class="d-flex flex-column align-items-start">
+       <section id="sidebar" class="d-flex flex-column align-items-start ">
         <a href="#" class="brand p-2 m-4">
             <img src="{{ asset('build/assets/Logo (1).png') }}" alt="Logo" class="w-75" />
         </a>
@@ -42,22 +41,23 @@
             @yield('staff-content')
         </section>
     </div>
+
+
+
+    <script>
+      const permit = window.addEventListener("load", ( ) => {
+        navigator.geolocation.getCurrentPosition(  
+          (position) => {  
+              console.log(position.coords.latitude, position.coords.longitude);  
+          },  
+          (error) => {  
+              console.error(error);  
+          }  
+      );
+      })
+
+ 
+    </script>
 </body>
 </html>
 
-<script>
-  document.getElementById('submitButton').addEventListener('click', function() {
-    Swal.fire({
-      title: 'Are you sure?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, logout!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        document.getElementById('logoutForm').submit();
-      }
-    });
-  });
-</script>

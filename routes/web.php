@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\Admin\VisitorsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Auth\AuthenticationsController;
 use App\Http\Controllers\Web\Admin\StaffController;
+use App\Http\Controllers\Web\Staffs\IosStaffController;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 /*
@@ -53,7 +54,7 @@ Route::middleware(['auth', 'admin'])->prefix('v1')->group(function () {
 });
 
 Route::middleware(['web'])->prefix('v1')->group(function () {
-    Route::get('/staff/dashboard', [StaffController::class, 'index'])->name('staff.dashboard');
+    Route::get('/staff/dashboard', [IosStaffController::class, 'index'])->name('staff.dashboard');
     Route::get('/check-in-history', [StaffController::class, 'getStaffCheckInHistory'])->name('staff.history');
     Route::get('/current', [StaffController::class, 'getStaffCurrentVisitors'])->name('staff.current.visitors.for.the.day');
     Route::get('/visitors-history', [StaffController::class, 'getStaffVisitorsHistory'])->name('staff.visitors.history');

@@ -37,8 +37,6 @@ class StaffController extends Controller
         $groupedByWeek = $staffHistories->staffcheckins->groupBy(function ($checkin) {
             return Carbon::parse($checkin->check_in_time)->startOfWeek()->format('W'); // Week number
         });
-
-
         return view('staffs.show', ['staff' => $groupedByWeek]);
     }
 
